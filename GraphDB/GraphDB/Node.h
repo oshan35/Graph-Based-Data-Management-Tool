@@ -1,7 +1,7 @@
 #pragma once
 #include<iostream>
 #include<map>
-#include<boost/functional/hash.hpp>
+
 
 using namespace std;
 
@@ -30,12 +30,22 @@ public:
 		inMap[index] = relation;
 	}
 
-
-	int hashCode()
+	int hashValue()
 	{
-		boost::hash<std::string> string_hash;
+		int h = hash;
+		if (h == 0 && count > 0)
+		{
+			int off = offset;
+			char val[] = value;
+			int len = count;
 
-		return string_hash("Hash me");
+			for (int i = 0; i < len; i++)
+			{
+				h = 31 * h + val[off++];
+			}
+			hash = h;
+		}
+		return h;
 	}
 	
 
