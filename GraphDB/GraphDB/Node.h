@@ -11,6 +11,9 @@ class Node
 	string data;
 	map<int, Node*> inMap;
 	map<int, Node*> outMap;
+	Node* left;
+	Node* right;
+
 
 public:
 	Node(string label, string data) {
@@ -30,23 +33,22 @@ public:
 		inMap[index] = relation;
 	}
 
-	int hashValue()
-	{
-		int h = hash;
-		if (h == 0 && count > 0)
-		{
-			int off = offset;
-			char val[] = value;
-			int len = count;
-
-			for (int i = 0; i < len; i++)
-			{
-				h = 31 * h + val[off++];
-			}
-			hash = h;
-		}
-		return h;
+	void setLeft(Node* left) {
+		this->left = left;
 	}
+
+	void setRight(Node* right) {
+		this->right = right;
+	}
+
+	Node* getLeft() {
+		return left;
+	}
+
+	Node* right() {
+		return right;
+	}
+
 	
 
 };
