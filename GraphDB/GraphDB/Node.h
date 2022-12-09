@@ -49,7 +49,5 @@ public:
 		return right;
 	}
 
-	
-
 };
 
