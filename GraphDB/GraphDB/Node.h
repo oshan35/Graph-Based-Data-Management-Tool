@@ -45,8 +45,11 @@ public:
 		return left;
 	}
 
-	Node* right() {
+	Node* getright() {
 		return right;
+	}
+	string getData() {
+		return data;
 	}
 
 };
