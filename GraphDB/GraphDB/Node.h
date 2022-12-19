@@ -8,7 +8,7 @@ using namespace std;
 class Node
 {
 	string label;
-	string data;
+	auto data;
 	map<int, Node*> inMap;
 	map<int, Node*> outMap;
 	Node* left;
@@ -16,7 +16,7 @@ class Node
 
 
 public:
-	Node(string label, string data) {
+	Node(string label, auto data) {
 		this->label = label;
 		this->data = data;
 	}
