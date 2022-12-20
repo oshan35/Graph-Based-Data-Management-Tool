@@ -1,14 +1,14 @@
 #pragma once
 #include<iostream>
 #include<map>
-
+#include<variant>
 
 using namespace std;
 
 class Node
 {
 	string label;
-	auto data;
+	variant<int, double, string> data;
 	map<int, Node*> inMap;
 	map<int, Node*> outMap;
 	Node* left;
@@ -16,12 +16,14 @@ class Node
 
 
 public:
-	Node(string label, auto data) {
+	
+
+	Node(string label, variant<int, double, string> data) {
 		this->label = label;
 		this->data = data;
 	}
 
-	void updateData(string newData) {
+	void updateData(variant<int, double, string> newData) {
 		this->data = newData;
 	}
 
@@ -45,8 +47,11 @@ public:
 		return left;
 	}
 
-	Node* right() {
+	Node* getright() {
 		return right;
+	}
+	variant<int, double, string> getData() {
+		return data;
 	}
 
 };
