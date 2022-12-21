@@ -1,17 +1,4 @@
 ﻿  Tree.cpp
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\variant(13): warning STL4038: The contents of <variant> are available only with C++17 or later.
-C:\Users\User\OneDrive\Desktop\Graph-Based-Data-Management-Tool\GraphDB\GraphDB\Node.h(11,9): error C2143: syntax error: missing ';' before '<'
-C:\Users\User\OneDrive\Desktop\Graph-Based-Data-Management-Tool\GraphDB\GraphDB\Node.h(11,9): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-C:\Users\User\OneDrive\Desktop\Graph-Based-Data-Management-Tool\GraphDB\GraphDB\Node.h(11,40): error C2238: unexpected token(s) preceding ';'
-C:\Users\User\OneDrive\Desktop\Graph-Based-Data-Management-Tool\GraphDB\GraphDB\Node.h(23,9): error C2039: 'data': is not a member of 'Node'
-C:\Users\User\OneDrive\Desktop\Graph-Based-Data-Management-Tool\GraphDB\GraphDB\Node.h(8,7): message : see declaration of 'Node'
-C:\Users\User\OneDrive\Desktop\Graph-Based-Data-Management-Tool\GraphDB\GraphDB\Node.h(27,9): error C2039: 'data': is not a member of 'Node'
-C:\Users\User\OneDrive\Desktop\Graph-Based-Data-Management-Tool\GraphDB\GraphDB\Node.h(8,7): message : see declaration of 'Node'
-C:\Users\User\OneDrive\Desktop\Graph-Based-Data-Management-Tool\GraphDB\GraphDB\Node.h(54,1): error C2563: mismatch in formal parameter list
-C:\Users\User\OneDrive\Desktop\Graph-Based-Data-Management-Tool\GraphDB\GraphDB\Node.h(54,1): error C2568: 'return': unable to resolve function overload
-C:\Users\User\OneDrive\Desktop\Graph-Based-Data-Management-Tool\GraphDB\GraphDB\Node.h(54,1): message : could be 'const _Elem *std::data(std::initializer_list<_Elem>) noexcept'
-C:\Users\User\OneDrive\Desktop\Graph-Based-Data-Management-Tool\GraphDB\GraphDB\Node.h(54,1): message : or       '_Ty *std::data(_Ty (&)[_Size]) noexcept'
-C:\Users\User\OneDrive\Desktop\Graph-Based-Data-Management-Tool\GraphDB\GraphDB\Node.h(54,1): message : or       'unknown-type std::data(const _Container &) noexcept(<expr>)'
-C:\Users\User\OneDrive\Desktop\Graph-Based-Data-Management-Tool\GraphDB\GraphDB\Node.h(54,1): message : or       'unknown-type std::data(_Container &) noexcept(<expr>)'
-C:\Users\User\OneDrive\Desktop\Graph-Based-Data-Management-Tool\GraphDB\GraphDB\Tree.h(84,1): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\User\OneDrive\Desktop\Graph-Based-Data-Management-Tool\GraphDB\GraphDB\Tree.h(85,1): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\User\OneDrive\Desktop\Graph-Based-Data-Management-Tool\GraphDB\GraphDB\Tree.h(86,1): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  GraphDB.vcxproj -> C:\Users\User\OneDrive\Desktop\Graph-Based-Data-Management-Tool\GraphDB\x64\Debug\GraphDB.exe

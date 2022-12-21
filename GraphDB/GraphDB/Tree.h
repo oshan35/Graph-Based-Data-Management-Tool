@@ -5,6 +5,7 @@
 #include <vector>
 #include<algorithm>
 #include<variant>
+#include <sstream>
 
 using namespace std;
 class Tree
@@ -82,7 +83,7 @@ public:
 	}
 	Node* createTree(vector <Node*> Data) {
 		vector<Node*> sortedVector = mergeSort(Data, 0, Data.size() - 1);
-		return (vectorToBST(Data, 0, Data.size() - 1));
+		return (vectorToBST(sortedVector, 0, Data.size() - 1));
 		//returns the root of the created tree
 
 	}
@@ -100,7 +101,22 @@ public:
 		else
 			return root;
 	}
-	
+	void print(Node* root) {
+		if (root == NULL)
+			return;
+		cout << stringify(root->getData())<<" ";
+		print(root->getLeft());
+		print(root->getright());
+	}
+	string stringify(variant<int, double, string> const& value) {
+		if (int const* pval = std::get_if<int>(&value))
+			return to_string(*pval);
+
+		if (double const* pval = std::get_if<double>(&value))
+			return to_string(*pval);
+
+		return get<string>(value);
+	}
 
 };
 
