@@ -21,12 +21,15 @@
     <ClCompile Include="FileReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Tree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DataCluster.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+=======
+>>>>>>> main
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileReader.h">
@@ -35,7 +38,7 @@
     <ClInclude Include="Node.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tree.h">
+    <ClInclude Include="Graph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DataCluster.h">
