@@ -1,4 +1,0 @@
-﻿  Tree.cpp
-C:\Users\User\OneDrive\Desktop\Graph-Based-Data-Management-Tool\GraphDB\GraphDB\Tree.h(85,1): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\User\OneDrive\Desktop\Graph-Based-Data-Management-Tool\GraphDB\GraphDB\Tree.h(86,1): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-  GraphDB.vcxproj -> C:\Users\User\OneDrive\Desktop\Graph-Based-Data-Management-Tool\GraphDB\x64\Debug\GraphDB.exe
