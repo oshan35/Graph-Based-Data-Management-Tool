@@ -11,8 +11,14 @@
 using namespace std;
 class DataCluster
 {
-	vector<Tree> coulmnTrees;
-	Graph graph;
+	vector<Tree*> coulmnTrees;
+	Graph* graph;
+	
+	public:
+	DataCluster(){
+		Node* indexNode = new Node();
+		graph = new Graph(indexNode);
+	}
 
 	vector<vector<Node*>> createNodes(vector < vector<variant<int, double, string>>> rows, vector<string> firstrow) {// should first row be given seperately
 		for (int i = 0; i < rows[0].size(); i++) {
@@ -47,11 +53,16 @@ class DataCluster
 			vector<Node*> nodeCol;
 			for (int row = 0; row < nodeRawData.size(); row++)
 			{
-				nodeCol.push_back(nodeRawData[col][row]);
+				auto it = find(nodeCol.begin(), nodeCol.end(),nodeRawData[row][col]);
+				
+				if (it == nodeCol.end()){
+					nodeCol.push_back(nodeRawData[row][col]);
+				}
+
 			}
 
-			Tree newTree;
-			newTree.createTree(nodeCol);
+			Tree* newTree=new Tree();
+			newTree->createTree(nodeCol);
 
 			coulmnTrees.push_back(newTree);
 		}
@@ -59,27 +70,28 @@ class DataCluster
 	}
 
 	void createGraph(vector<vector<Node*>> nodeRawData){
-		Node* indexNode;
+
 		for(int row=0; row < nodeRawData.size(); row++){
 			Node* prev = nullptr;
 			for(int col=0; col < nodeRawData[0].size(); col++){
 				Node* curr = nodeRawData[row][col];
 				if(col == 0){
-					indexNode->addOutRelation(row,curr);
+					graph->indexNode->addOutRelation(row,curr);
 					prev = curr;
 				}else{
-					graph.insertNode(prev,curr,row);
+					graph->insertNode(prev,curr,row);
 					prev = curr;
 				}
 			}
 		}
 	}
 
-	public:
+	
 	void createDataCluster(vector < vector<variant<int, double, string>>> rows, vector<string> firstrow){
 		vector<vector<Node*>> rowNodeData = createNodes(rows, firstrow);
-		createTrees(rowNodeData);
 		createGraph(rowNodeData);
+		createTrees(rowNodeData);
+
 	}
 
 
