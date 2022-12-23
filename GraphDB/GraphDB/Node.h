@@ -16,6 +16,8 @@ class Node
 
 
 public:
+	Node(){
+	}
 	
 
 	Node(string label, variant<int, double, string> data) {
@@ -53,6 +55,10 @@ public:
 	variant<int, double, string> getData() {
 		return data;
 	}
+
+	bool operator==(const Node& other) const {
+    	return data == other.data && label == other.label;
+  	}
 
 };
 

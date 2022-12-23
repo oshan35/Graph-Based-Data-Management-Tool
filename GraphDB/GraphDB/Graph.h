@@ -7,10 +7,15 @@ using namespace std;
 
 class Graph
 {
-	Node* indexNode;
+
+
 	int numOfNodes;
 
 public:
+	Node* indexNode;
+
+	Graph(){}
+
 	Graph(Node* indexNode) {
 		this->indexNode = indexNode;
 		numOfNodes = 1;
