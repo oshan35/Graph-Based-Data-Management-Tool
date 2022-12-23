@@ -13,12 +13,8 @@ class DataCluster
 {
 	vector<Tree*> coulmnTrees;
 	Graph* graph;
+
 	
-	public:
-	DataCluster(){
-		Node* indexNode = new Node();
-		graph = new Graph(indexNode);
-	}
 
 	vector<vector<Node*>> createNodes(vector < vector<variant<int, double, string>>> rows, vector<string> firstrow) {// should first row be given seperately
 		for (int i = 0; i < rows[0].size(); i++) {
@@ -55,7 +51,9 @@ class DataCluster
 			{
 				auto it = find(nodeCol.begin(), nodeCol.end(),nodeRawData[row][col]);
 				
-				if (it == nodeCol.end()){
+				if (it != nodeCol.end()){
+					continue;
+				}else{
 					nodeCol.push_back(nodeRawData[row][col]);
 				}
 
@@ -85,6 +83,14 @@ class DataCluster
 			}
 		}
 	}
+
+
+	public:
+	DataCluster(){
+		Node* indexNode = new Node();
+		graph = new Graph(indexNode);
+	}
+
 
 	
 	void createDataCluster(vector < vector<variant<int, double, string>>> rows, vector<string> firstrow){
