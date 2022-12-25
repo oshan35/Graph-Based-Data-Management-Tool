@@ -14,17 +14,14 @@ class DataCluster
 	vector<Tree*> coulmnTrees;
 	Graph* graph;
 	
-	public:
-	DataCluster(){
-		Node* indexNode = new Node();
-		graph = new Graph(indexNode);
-	}
+	
 
-	vector<vector<Node*>> createNodes(vector < vector<variant<int, double, string>>> rows, vector<string> firstrow) {// should first row be given seperately
+	vector<vector<Node*>> createNodes(vector < vector<variant<int, double, string>>> rows) {// should first row be given seperately
+		vector<vector<Node*> > arr(rows.size(), vector<Node*>(rows[0].size()));
 		for (int i = 0; i < rows[0].size(); i++) {
 			map<variant<int, double, string>, vector<pair<int, int>>> nodeMap;
 
-			for (int j = 0; j < rows.size(); j++) {
+			for (int j = 1; j < rows.size(); j++) {
 
 				if (nodeMap.count(rows[j][i]) == 0) {
 					vector<pair<int, int>> v1 = { { j,i } };
@@ -32,18 +29,28 @@ class DataCluster
 				}
 				else nodeMap[rows[j][i]].push_back({ j,i });
 			}
-			vector<vector<Node*> > arr(rows.size(), vector<Node*>(rows[0].size()));
 
 			for (const auto& [k, v] : nodeMap) {
+				Node* newNode = new Node(stringify(rows[0][i]), k);
 				for (int index = 0; index < v.size(); index++) {
-					Node* newNode = new Node(firstrow[i], k);
+
 					arr[v[index].first][v[index].second] = newNode;
 				}
-				return arr;
-			}
-		}
-	}
 
+			}
+
+		}
+		return arr;
+	}
+	string stringify(variant<int, double, string> const& value) {
+		if (int const* pval = std::get_if<int>(&value))
+			return std::to_string(*pval);
+
+		if (double const* pval = std::get_if<double>(&value))
+			return to_string(*pval);
+
+		return get<string>(value);
+	}
 
 
 	void createTrees(vector<vector<Node*>> nodeRawData){
@@ -86,9 +93,13 @@ class DataCluster
 		}
 	}
 
-	
-	void createDataCluster(vector < vector<variant<int, double, string>>> rows, vector<string> firstrow){
-		vector<vector<Node*>> rowNodeData = createNodes(rows, firstrow);
+	public:
+	DataCluster(){
+		Node* indexNode = new Node();
+		graph = new Graph(indexNode);
+	}
+	void createDataCluster(vector < vector<variant<int, double, string>>> rows){
+		vector<vector<Node*>> rowNodeData = createNodes(rows);
 		createGraph(rowNodeData);
 		createTrees(rowNodeData);
 
