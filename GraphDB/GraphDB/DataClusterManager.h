@@ -1,7 +1,7 @@
 #include<iostream>
 #include<map>
 #include<vector>
-#include<varient>
+#include<variant>
 #include"DataCluster.h"
 using namespace std;
 
@@ -21,22 +21,22 @@ class DataClusterManager{
 
         for (int index = 0; index < rawData.length(); index++)
         {
-            if (!isdigit(rawData[index]))
-            {
-                isInt=false;
-            }else if (rawData[index] == '.' && !isDouble)
+            if (rawData[index] == '.' && !isDouble && isInt)
             {
                 isDouble = true;
+            }else if (!isdigit(rawData[index]))
+            {
+                isInt=false;
             }
             
             
         }
 
-        if(isInt && isDouble){
-            doubleValue = atof(rawData);
+        if(isDouble && isInt){
+            doubleValue = stod(rawData);
             convertedData = doubleValue;
         }else if(isInt){
-            intValue = atoi(rawData);
+            intValue = stoi(rawData);
             convertedData = intValue;
         }else{
             stringValue = rawData;
@@ -45,9 +45,8 @@ class DataClusterManager{
 
         return convertedData;
 
-
-        
     }
+
 
     void createDataCluster(vector<vector<*string>> *rawData){
         
