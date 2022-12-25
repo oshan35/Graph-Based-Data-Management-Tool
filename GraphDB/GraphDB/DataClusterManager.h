@@ -1,7 +1,9 @@
 #include<iostream>
 #include<map>
 #include<vector>
+ #include <stdlib.h> 
 #include"DataCluster.h"
+
 using namespace std;
 
 class DataClusterManager{
@@ -15,4 +17,4 @@ class DataClusterManager{
     void createDataCluster(map<int, vector<string>> datamap){
 
     }
-}
+};
