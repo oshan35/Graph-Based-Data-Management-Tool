@@ -13,15 +13,6 @@ class DataCluster
 {
 	vector<Tree*> coulmnTrees;
 	Graph* graph;
-
-	
-
-	vector<vector<Node*>> createNodes(vector < vector<variant<int, double, string>>> rows, vector<string> firstrow) {// should first row be given seperately
-	vector<Tree*> coulmnTrees;
-	Graph* graph;
-	
-	
-
 	vector<vector<Node*>> createNodes(vector < vector<variant<int, double, string>>> rows) {// should first row be given seperately
 		vector<vector<Node*> > arr(rows.size(), vector<Node*>(rows[0].size()));
 		for (int i = 0; i < rows[0].size(); i++) {
@@ -58,51 +49,8 @@ class DataCluster
 		return get<string>(value);
 	}
 
-
-	void createTrees(vector<vector<Node*>> nodeRawData){
-		for (int col = 0; col < nodeRawData.at(0).size(); col++)
-		{
-
-			vector<Node*> nodeCol;
-			for (int row = 0; row < nodeRawData.size(); row++)
-			{
-				auto it = find(nodeCol.begin(), nodeCol.end(),nodeRawData[row][col]);
-				
-				if (it == nodeCol.end()){
-					nodeCol.push_back(nodeRawData[row][col]);
-				}
-
-			}
-
-			Tree* newTree=new Tree();
-			newTree->createTree(nodeCol);
-
-			coulmnTrees.push_back(newTree);
-		}
-		
-	}
-
-	void createGraph(vector<vector<Node*>> nodeRawData){
-
-		for(int row=0; row < nodeRawData.size(); row++){
-			Node* prev = nullptr;
-			for(int col=0; col < nodeRawData[0].size(); col++){
-				Node* curr = nodeRawData[row][col];
-				if(col == 0){
-					graph->indexNode->addOutRelation(row,curr);
-					prev = curr;
-				}else{
-					graph->insertNode(prev,curr,row);
-					prev = curr;
-				}
-			}
-		}
-	}
-
-
-
-	vector<*Tree> createTrees(vector<vector<Node*>> nodeRawData){
-		vector<*Tree> columnList;
+	vector<Tree*> createTrees(vector<vector<Node*>> nodeRawData){
+		vector<Tree*> columnList;
 		for (int col = 0; col < nodeRawData.at(0).size(); col++)
 		{
 
@@ -130,9 +78,9 @@ class DataCluster
 		
 	}
 
-	Graph createGraph(vector<vector<Node*>> nodeRawData){
+	Graph* createGraph(vector<vector<Node*>> nodeRawData){
 		Node* indexNode = new Node();
-		Graph newGraph = new Graph(indexNode);
+		Graph* newGraph = new Graph(indexNode);
 
 		for(int row=0; row < nodeRawData.size(); row++){
 			Node* prev = nullptr;
@@ -160,8 +108,8 @@ class DataCluster
 
 
 	
-	void createDataCluster(vector < vector<variant<int, double, string>>> rows, vector<string> firstrow){
-		vector<vector<Node*>> rowNodeData = createNodes(rows, firstrow);
+	void createDataCluster(vector < vector<variant<int, double, string>>> rows){
+		vector<vector<Node*>> rowNodeData = createNodes(rows);
 		graph = createGraph(rowNodeData);
 		coulmnTrees = createTrees(rowNodeData);
 	}
