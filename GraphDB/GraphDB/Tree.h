@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD
 #include <stdio.h>
+=======
+#include<stdio.h>
+>>>>>>> origin/dev1_oshan35
 #include<iostream>
 #include "Node.h"
 #include <vector>
