@@ -42,9 +42,11 @@ class DataCluster
 
 
 
-	void createTrees(vector<vector<Node*>> nodeRawData){
+	vector<*Tree> createTrees(vector<vector<Node*>> nodeRawData){
+		vector<*Tree> columnList;
 		for (int col = 0; col < nodeRawData.at(0).size(); col++)
 		{
+
 
 			vector<Node*> nodeCol;
 			for (int row = 0; row < nodeRawData.size(); row++)
@@ -62,12 +64,16 @@ class DataCluster
 			Tree* newTree=new Tree();
 			newTree->createTree(nodeCol);
 
-			coulmnTrees.push_back(newTree);
+			columnList.push_back(newTree);
 		}
+
+		return columnList;
 		
 	}
 
-	void createGraph(vector<vector<Node*>> nodeRawData){
+	Graph createGraph(vector<vector<Node*>> nodeRawData){
+		Node* indexNode = new Node();
+		Graph newGraph = new Graph(indexNode);
 
 		for(int row=0; row < nodeRawData.size(); row++){
 			Node* prev = nullptr;
@@ -82,6 +88,8 @@ class DataCluster
 				}
 			}
 		}
+
+		return newGraph;
 	}
 
 
@@ -95,13 +103,9 @@ class DataCluster
 	
 	void createDataCluster(vector < vector<variant<int, double, string>>> rows, vector<string> firstrow){
 		vector<vector<Node*>> rowNodeData = createNodes(rows, firstrow);
-		createGraph(rowNodeData);
-		createTrees(rowNodeData);
-
+		graph = createGraph(rowNodeData);
+		coulmnTrees = createTrees(rowNodeData);
 	}
-
-
-
 
 };
 
