@@ -13,10 +13,8 @@ class DataCluster
 {
 	vector<Tree*> coulmnTrees;
 	Graph* graph;
-
-	
-
-	vector<vector<Node*>> createNodes(vector < vector<variant<int, double, string>>> rows, vector<string> firstrow) {// should first row be given seperately
+	vector<vector<Node*>> createNodes(vector < vector<variant<int, double, string>>> rows) {// should first row be given seperately
+		vector<vector<Node*> > arr(rows.size(), vector<Node*>(rows[0].size()));
 		for (int i = 0; i < rows[0].size(); i++) {
 			map<variant<int, double, string>, vector<pair<int, int>>> nodeMap;
 
@@ -42,8 +40,10 @@ class DataCluster
 
 
 
-	vector<*Tree> createTrees(vector<vector<Node*>> nodeRawData){
-		vector<*Tree> columnList;
+	
+
+	vector<Tree*> createTrees(vector<vector<Node*>> nodeRawData){
+		vector<Tree*> columnList;
 		for (int col = 0; col < nodeRawData.at(0).size(); col++)
 		{
 
@@ -71,9 +71,9 @@ class DataCluster
 		
 	}
 
-	Graph createGraph(vector<vector<Node*>> nodeRawData){
+	Graph* createGraph(vector<vector<Node*>> nodeRawData){
 		Node* indexNode = new Node();
-		Graph newGraph = new Graph(indexNode);
+		Graph* newGraph = new Graph(indexNode);
 
 		for(int row=0; row < nodeRawData.size(); row++){
 			Node* prev = nullptr;
@@ -101,8 +101,8 @@ class DataCluster
 
 
 	
-	void createDataCluster(vector < vector<variant<int, double, string>>> rows, vector<string> firstrow){
-		vector<vector<Node*>> rowNodeData = createNodes(rows, firstrow);
+	void createDataCluster(vector < vector<variant<int, double, string>>> rows){
+		vector<vector<Node*>> rowNodeData = createNodes(rows);
 		graph = createGraph(rowNodeData);
 		coulmnTrees = createTrees(rowNodeData);
 	}
