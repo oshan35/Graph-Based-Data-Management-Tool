@@ -1,17 +1,15 @@
 
-<<<<<<< HEAD
-#include <stdio.h>
-=======
+
 #include<stdio.h>
->>>>>>> origin/dev1_oshan35
 #include<iostream>
 #include "Node.h"
 #include <vector>
 #include<algorithm>
 #include<variant>
 #include <sstream>
-
+#include <string>
 using namespace std;
+
 class Tree
 {   Node* root;
 	Node* vectorToBST(vector <Node*> Data, int start, int end) {
@@ -68,6 +66,7 @@ class Tree
 
 
 	}
+	
 
 
 
@@ -105,22 +104,8 @@ public:
 		else
 			return root;
 	}
-	void print(Node* root) {
-		if (root == NULL)
-			return;
-		cout << stringify(root->getData())<<" ";
-		print(root->getLeft());
-		print(root->getright());
-	}
-	string stringify(variant<int, double, string> const& value) {
-		if (int const* pval = std::get_if<int>(&value))
-			return to_string(*pval);
-
-		if (double const* pval = std::get_if<double>(&value))
-			return to_string(*pval);
-
-		return get<string>(value);
-	}
+	
+	
 
 };
 
