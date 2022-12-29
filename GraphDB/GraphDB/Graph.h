@@ -14,7 +14,10 @@ class Graph
 public:
 	Node* indexNode;
 
-	Graph(){}
+	Graph(){
+		Node* newNode = new Node();
+		indexNode = newNode;
+	}
 
 	Graph(Node* indexNode) {
 		this->indexNode = indexNode;
@@ -52,13 +55,8 @@ public:
 			}
 				
 		}
-
-
-
 		
 	}
-
-
 
 };
 
