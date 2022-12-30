@@ -1,15 +1,11 @@
 
-<<<<<<< HEAD
-#include <stdio.h>
-=======
-#include<stdio.h>
->>>>>>> origin/dev1_oshan35
 #include<iostream>
 #include "Node.h"
 #include <vector>
 #include<algorithm>
 #include<variant>
 #include <sstream>
+#include <stdio.h>
 
 using namespace std;
 class Tree
@@ -114,7 +110,7 @@ public:
 	}
 	string stringify(variant<int, double, string> const& value) {
 		if (int const* pval = std::get_if<int>(&value))
-			return to_string(*pval);
+			return std::to_string(*pval);
 
 		if (double const* pval = std::get_if<double>(&value))
 			return to_string(*pval);

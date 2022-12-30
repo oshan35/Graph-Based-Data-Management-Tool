@@ -114,6 +114,5 @@ class DataCluster
 		coulmnTrees = createTrees(rowNodeData);
 	}
 
-}
 };
 
