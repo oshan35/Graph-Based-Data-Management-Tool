@@ -1,25 +1,26 @@
 
+#pragma once
+#include<stdio.h>
 #include<iostream>
 #include "Node.h"
 #include <vector>
 #include<algorithm>
 #include<variant>
-#include <sstream>
-#include <stdio.h>
 
 using namespace std;
 class Tree
-{   Node* root;
+{
+	Node* root;
 	Node* vectorToBST(vector <Node*> Data, int start, int end) {
-	if (start > end) {
-		return NULL;
-	}
-	int middle = (start + end) / 2;
+		if (start > end) {
+			return NULL;
+		}
+		int middle = (start + end) / 2;
 
-	Data[middle]->setLeft(vectorToBST(Data, start, middle - 1));
-	Data[middle]->setRight(vectorToBST(Data, middle + 1, end));
-	return Data[middle];
-}
+		Data[middle]->setLeft(vectorToBST(Data, start, middle - 1));
+		Data[middle]->setRight(vectorToBST(Data, middle + 1, end));
+		return Data[middle];
+	}
 	vector<Node*> mergeArrays(vector<Node*> arr1, vector<Node*> arr2) {
 		vector<Node*> newArr;
 		int i = 0;
@@ -68,8 +69,8 @@ class Tree
 
 
 public:
-	Tree(string label,string data) { 
-		Node* temp = new Node(label,data);
+	Tree(string label, string data) {
+		Node* temp = new Node(label, data);
 		root = temp;
 	}
 	Tree() {
@@ -83,11 +84,11 @@ public:
 	}
 	Node* createTree(vector <Node*> Data) {
 		vector<Node*> sortedVector = mergeSort(Data, 0, Data.size() - 1);
-		return (vectorToBST(sortedVector, 0, Data.size() - 1));
+		return (vectorToBST(Data, 0, Data.size() - 1));
 		//returns the root of the created tree
 
 	}
-	
+
 	Node* searchTree(Node* root, variant<int, double, string> target) {
 		if (target > root->getData()) {
 			root = searchTree(root->getright(), target);
@@ -101,22 +102,6 @@ public:
 		else
 			return root;
 	}
-	void print(Node* root) {
-		if (root == NULL)
-			return;
-		cout << stringify(root->getData())<<" ";
-		print(root->getLeft());
-		print(root->getright());
-	}
-	string stringify(variant<int, double, string> const& value) {
-		if (int const* pval = std::get_if<int>(&value))
-			return std::to_string(*pval);
 
-		if (double const* pval = std::get_if<double>(&value))
-			return to_string(*pval);
-
-		return get<string>(value);
-	}
 
 };
-
