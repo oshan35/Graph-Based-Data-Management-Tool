@@ -45,7 +45,7 @@ public:
 		while (!q.empty()) {
 			Node* curr = q.front();
 			q.pop();
-			map<int, Node*> outmap;
+			map<int, Node*> outmap;// outmap isnt initialized
 
 			for (auto i = outmap.begin(); i != outmap.end(); i++) {
 				if (!visited.count(i->second)) {
