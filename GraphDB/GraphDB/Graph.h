@@ -7,8 +7,6 @@ using namespace std;
 
 class Graph
 {
-
-
 	int numOfNodes;
 
 public:
@@ -32,31 +30,33 @@ public:
 		numOfNodes++;
 	}
 
-	void searchNode() {
-		Node* start = indexNode;
-		queue<Node*> q;
-
-		unordered_set<Node*> visited;
-
-		q.push(start);
-
-		visited.insert(start);
-
-		while (!q.empty()) {
-			Node* curr = q.front();
-			q.pop();
-			map<int, Node*> outmap;// outmap isnt initialized
-
-			for (auto i = outmap.begin(); i != outmap.end(); i++) {
-				if (!visited.count(i->second)) {
-					q.push(i->second);
-					visited.insert(i->second);
+vector<vector<Node*>> findPath(Node* start, Node* end, vector<vector<Node*>>Paths, vector<Node*>newPath, int level) {
+		level++;
+		if (start == end) {
+			Paths.push_back(newPath);
+			return Paths;
+		}
+        if (start==NULL)
+            return {{}};
+		for (const auto& [key, value] : start->getInMap()) {
+			if (level == 1)
+				newPath = { start,value};
+			else {
+				for (int i = 0;i<newPath.size();i++) {
+					if ( newPath[i]->getLabel() == value->getLabel())
+						newPath.erase(newPath.begin() + i);
 				}
+
+				newPath.push_back(value);
 			}
 				
+				
+			Paths = findPath(value, end, Paths, newPath, level);
 		}
-		
+		return Paths;
 	}
+
+
 
 };
 
