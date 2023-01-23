@@ -52,8 +52,17 @@ public:
 	Node* getright() {
 		return right;
 	}
+	variant<int, double, string> getLabel() {
+		return label;
+	}
 	variant<int, double, string> getData() {
 		return data;
+	}
+	map<int, Node*> getInMap(){
+		return inMap;
+	}
+	map<int, Node*> getOutMap(){
+		return outMap;
 	}
 
 	bool operator==(const Node& other) const {
