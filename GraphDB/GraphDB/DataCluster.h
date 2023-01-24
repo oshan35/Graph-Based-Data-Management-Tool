@@ -32,7 +32,7 @@ class DataCluster
 			vector<vector<Node*> > arr(rows.size(), vector<Node*>(rows[0].size()));
 
 			for (int row = 1; row < rowsOutVector.size(); row++) {
-				rowsOutVector[row].push_back( nodeMap[rowsInVector[row][column]]);
+				rowsOutVector[row][column]=nodeMap[rowsInVector[row][column]];
 			}
 		}
 		return rowsOutVector;
