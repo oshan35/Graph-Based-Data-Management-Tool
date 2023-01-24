@@ -30,14 +30,83 @@ public:
 		numOfNodes++;
 	}
 
+	vector<vector<Node*>> findInPath(Node* start, Node* end, vector<vector<Node*>>Paths, vector<Node*>newPath, int level) {
+		level++;
+		if (start == end) {
+			Paths.push_back(newPath);
+			return Paths;
+		}
+		if (start == NULL)
+			return { {} };
+
+		std::vector<Node*> values;
+		for (auto& elem : start->getInMap()) {
+			values.push_back(elem.second);
+		}
+		auto last = std::unique(values.begin(), values.end());
+		values.erase(last, values.end());
+
+		for (const auto value : values) {
+			if (level == 1)
+				newPath = { start,value };
+			else {
+				for (int i = 0; i < newPath.size(); i++) {
+					if (newPath[i]->getLabel() == value->getLabel())
+						newPath.erase(newPath.begin() + i);
+				}
+
+				newPath.push_back(value);
+			}
+
+
+			Paths = findInPath(value, end, Paths, newPath, level);
+		}
+		return Paths;
+
+	}
+	
+	vector<vector<Node*>> findOutPath(Node* start, Node* end, vector<vector<Node*>>Paths, vector<Node*>newPath, int level) {
+		level++;
+		if (start == end) {
+			Paths.push_back(newPath);
+			return Paths;
+		}
+		if (start == NULL)
+			return { {} };
+		std::vector<Node*> values;
+		for (auto& elem : start->getOutMap()) {
+			values.push_back(elem.second);
+		}
+		auto last = std::unique(values.begin(), values.end());
+		values.erase(last, values.end());
+
+		for (const auto value: values) {
+			if (level == 1)
+				newPath = { start,value };
+			else {
+				for (int i = 0; i < newPath.size(); i++) {
+					if (newPath[i]->getLabel() == value->getLabel())
+						newPath.erase(newPath.begin() + i);
+				}
+
+				newPath.push_back(value);
+			}
+
+
+			Paths = findOutPath(value, end, Paths, newPath, level);
+		}
+		return Paths;
+
+	}
+/*
 vector<vector<Node*>> findPath(Node* start, Node* end, vector<vector<Node*>>Paths, vector<Node*>newPath, int level) {
 		level++;
 		if (start == end) {
 			Paths.push_back(newPath);
 			return Paths;
 		}
-        if (start==NULL)
-            return {{}};
+		if (start==NULL)
+			return {{}};
 		for (const auto& [key, value] : start->getInMap()) {
 			if (level == 1)
 				newPath = { start,value};
@@ -49,14 +118,12 @@ vector<vector<Node*>> findPath(Node* start, Node* end, vector<vector<Node*>>Path
 
 				newPath.push_back(value);
 			}
-				
-				
+
+
 			Paths = findPath(value, end, Paths, newPath, level);
 		}
 		return Paths;
-	}
-
-
+	}*/
 
 };
 
