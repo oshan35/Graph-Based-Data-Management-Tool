@@ -208,21 +208,40 @@ int main() {
 	Node* node8 = new Node("age", 23);
 	Node* node9 = new Node("Uni", "Ruhuna");
 	Node* node10 = new Node("Education", "Ruhuna");
-	Graph* graph = new Graph(node10);
-	graph->insertNode(node9, node10, 4092);
-	graph->insertNode(node8, node9, 4094);
-	graph->insertNode(node7, node9, 4093);
-	graph->insertNode(node3, node8, 4089);
-	graph->insertNode(node4, node8, 4090);
-	graph->insertNode(node1, node7, 4091);
-	graph->insertNode(node2, node7, 4092);
-	graph->insertNode(node5, node1, 4088);
-	graph->insertNode(node5, node2, 4088);
-	graph->insertNode(node5, node4, 4088);
-	graph->insertNode(node6, node3, 4089);
+	Node* node11 = new Node("Degree", "Engineering");
+	Graph* graph = new Graph(node11);
+	graph->insertNode(node9, node10, 1);
+	graph->insertNode(node9, node10, 2);
+	graph->insertNode(node9, node10, 3);
+	graph->insertNode(node9, node10, 4);
+	graph->insertNode(node8, node9, 3);
+	graph->insertNode(node8, node9, 4);
+	graph->insertNode(node7, node9, 1);
+	graph->insertNode(node7, node9, 2);
+	graph->insertNode(node3, node8, 4);
+	graph->insertNode(node4, node8, 3);
+	graph->insertNode(node1, node7, 1);
+	graph->insertNode(node2, node7,2);
+	graph->insertNode(node5, node1, 1);
+	graph->insertNode(node5, node2, 2);
+	graph->insertNode(node5, node4, 3);
+	graph->insertNode(node6, node3, 4);
+	graph->insertNode(node11, node5, 1);
+	graph->insertNode(node11, node5, 2);
+	graph->insertNode(node11, node5, 3);
+	graph->insertNode(node11, node6, 4);	
+	/*
+	for (const auto& [key, value] : node10->getInMap()) {
+		std::cout << std::visit(make_string_functor(), value->getData()) << "\n";
+	}
+	*/
 	vector<vector<Node*>> res;
 	vector<Node*>input;
-	vector<vector<Node*>> res_got = graph->findPath(node9, node5, res, input, 0);
+	vector<vector<Node*>> res_got = graph->findInPath(node7, node5, res, input, 0);
+	if (res_got.empty()) {
+		res_got= graph->findOutPath(node11, node9, res, input, 0);
+	}
+	
 	for (int i = 0; i < res_got.size(); i++) {
 		for (int j = 0; j < res_got[i].size(); j++) {
 
@@ -232,4 +251,5 @@ int main() {
 		cout << endl;
 	}
 	return 0;
+	
 }
