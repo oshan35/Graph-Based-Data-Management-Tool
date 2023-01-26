@@ -19,7 +19,7 @@ public:
 	Graph* graph;
 
 	vector < vector<Node*>> createNodes(vector < vector<variant<int, double, string>>> rows) {
-		vector<vector<Node*> > arr(rows.size(), vector<Node*>(rows[0].size()));
+		vector<vector<Node*> > arr(rows.size()-1, vector<Node*>(rows[0].size()));
 		for (int i = 0; i < rows[0].size(); i++) {
 			map<variant<int, double, string>, vector<pair<int, int>>> nodeMap;
 
@@ -48,12 +48,11 @@ public:
 	}
 
 
-	vector<Tree*> createTrees(vector<vector<Node*>> nodeRawData) {
-		vector<Tree*> columnList;
+	void createTrees(vector<vector<Node*>> nodeRawData) {
+		
+		
 		for (int col = 0; col < nodeRawData.at(0).size(); col++)
 		{
-
-
 			vector<Node*> nodeCol;
 			for (int row = 0; row < nodeRawData.size(); row++)
 			{
@@ -71,10 +70,10 @@ public:
 			Tree* newTree = new Tree();
 			newTree->createTree(nodeCol);
 
-			columnList.push_back(newTree);
+			coulmnTrees.push_back(newTree);
 		}
 
-		return columnList;
+		
 
 	}
 
@@ -99,7 +98,7 @@ public:
 
 		return newGraph;
 	}
-
+	
 
 	public:
 	DataCluster(vector < vector<variant<int, double, string>>> stringNodesVector){
@@ -107,7 +106,7 @@ public:
 		vector<vector<Node*>> createdNodeVector = createNodes(stringNodesVector);
 
 		graph = createGraph(createdNodeVector);
-		coulmnTrees = createTrees(createdNodeVector);
+		createTrees(createdNodeVector);
 	}
 
 };

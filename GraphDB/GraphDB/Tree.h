@@ -61,6 +61,7 @@ string stringify(variant<int, double, string> const& value) {
 		return newArr;
 
 	}
+	
 	vector<Node*> mergeSort(vector<Node*> arr, int start, int end) {
 		if (start == end) {
 			vector<Node*> res = { arr[start] };
@@ -73,7 +74,6 @@ string stringify(variant<int, double, string> const& value) {
 
 
 	}
-
 
 
 public:
@@ -90,9 +90,10 @@ public:
 	Node* getRoot() {
 		return root;
 	}
-	Node* createTree(vector <Node*> Data) {
+	void createTree(vector <Node*> Data) {
 		vector<Node*> sortedVector = mergeSort(Data, 0, Data.size() - 1);
-		return (vectorToBST(sortedVector, 0, Data.size() - 1));
+		root=vectorToBST(sortedVector, 0, Data.size() - 1);
+		
 		//returns the root of the created tree
 
 	}
@@ -110,6 +111,28 @@ public:
 		else
 			return root;
 	}
+	/*
+	vector<Node*> searchIf(Node* root,string condition, vector<Node*> res) {
+		if (target > root->getData()) {
+			
+			
+
+		}
+			root = searchTree(root->getright(), target);
+			root = searchTree(root->getLeft(), target);
+			
+		
+	}vector<Node*> searchIf(Node* root,string condition, vector<Node*> res) {
+		if (target > root->getData()) {
+			
+			
+
+		}
+			root = searchTree(root->getright(), target);
+			root = searchTree(root->getLeft(), target);
+			
+		
+	}*/
 	
 	
 

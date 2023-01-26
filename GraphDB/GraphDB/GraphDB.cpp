@@ -258,14 +258,14 @@ int main() {
 		{"Nehara", 21, "Matara", "Ruhuna", "Engineering"},
 		{"Oshan", 22, "Colombo", "Moratuwa", "Manegement"},
 		{"Dahami", 21, "Galle", "Japura", "Medicine"},
-		{"Sam", 23, "Vauniya", "Jaffna", "Engineering"}
+		{"Sam", 22, "Vauniya", "Jaffna", "Engineering"}
 
 
 	};
 	DataCluster* cluster = new DataCluster(RowData);
 	Graph* res_created = cluster->graph;
 	vector<Tree*> tree = cluster->coulmnTrees;
-	Node* start=tree[1]->searchTree(tree[1]->getRoot(), 21);
+	Node* start=tree[1]->searchTree(tree[1]->getRoot(), 22);
 	Node* end = tree[4]->searchTree(tree[4]->getRoot(), "Engineering");
 	vector<vector<Node*>>result = res_created->findRelationship(start, end);
 	

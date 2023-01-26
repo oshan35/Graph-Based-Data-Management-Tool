@@ -8,28 +8,6 @@ using namespace std;
 class Graph
 {
 	int numOfNodes;
-
-public:
-	Node* indexNode;
-
-	Graph(){
-		Node* newNode = new Node();
-		indexNode = newNode;
-	}
-
-	Graph(Node* indexNode) {
-		this->indexNode = indexNode;
-		numOfNodes = 1;
-	}
-
-	void insertNode(Node* prevNode, Node* node, int index) {
-		node->addInRelation(index, prevNode);
-
-		prevNode->addOutRelation(index, node);
-
-		numOfNodes++;
-	}
-
 	vector<vector<Node*>> findInPath(Node* start, Node* end, vector<vector<Node*>>Paths, vector<Node*>newPath, int level) {
 		level++;
 		if (start == end) {
@@ -64,8 +42,7 @@ public:
 		return Paths;
 
 	}
-	
-	vector<vector<Node*>> findOutPath(Node* start, Node* end, vector<vector<Node*>>Paths, vector<Node*>newPath, int level) {
+vector<vector<Node*>> findOutPath(Node* start, Node* end, vector<vector<Node*>>Paths, vector<Node*>newPath, int level) {
 		level++;
 		if (start == end) {
 			Paths.push_back(newPath);
@@ -98,32 +75,41 @@ public:
 		return Paths;
 
 	}
-/*
-vector<vector<Node*>> findPath(Node* start, Node* end, vector<vector<Node*>>Paths, vector<Node*>newPath, int level) {
-		level++;
-		if (start == end) {
-			Paths.push_back(newPath);
-			return Paths;
+public:
+	Node* indexNode;
+
+	Graph(){
+		Node* newNode = new Node();
+		indexNode = newNode;
+	}
+
+	Graph(Node* indexNode) {
+		this->indexNode = indexNode;
+		numOfNodes = 1;
+	}
+
+	void insertNode(Node* prevNode, Node* node, int index) {
+		node->addInRelation(index, prevNode);
+
+		prevNode->addOutRelation(index, node);
+
+		numOfNodes++;
+	}
+
+	
+	vector<vector<Node*>> findRelationship(Node* start,Node* end){
+		
+		
+		vector<vector<Node*>> res;
+		vector<Node*>input;
+		vector<vector<Node*>> res_got = findInPath(start, end, res, input, 0);
+		if (res_got.empty()) {
+			res_got= findOutPath(start, end, res, input, 0);
 		}
-		if (start==NULL)
-			return {{}};
-		for (const auto& [key, value] : start->getInMap()) {
-			if (level == 1)
-				newPath = { start,value};
-			else {
-				for (int i = 0;i<newPath.size();i++) {
-					if ( newPath[i]->getLabel() == value->getLabel())
-						newPath.erase(newPath.begin() + i);
-				}
+		return res_got;
+	}
+	
 
-				newPath.push_back(value);
-			}
-
-
-			Paths = findPath(value, end, Paths, newPath, level);
-		}
-		return Paths;
-	}*/
 
 };
 
