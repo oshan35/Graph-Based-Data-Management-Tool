@@ -11,6 +11,7 @@
 #include <sstream>
 #include <queue>
 #include <unordered_map>
+
 using namespace std;
 class DataCluster
 {
@@ -98,7 +99,55 @@ public:
 
 		return newGraph;
 	}
-	
+	std::vector<std::string> split(const std::string& str) {
+		std::stringstream ss(str);
+		std::string word;
+		std::vector<std::string> words;
+		while (ss >> word) {
+			words.push_back(word);
+		}
+		return words;
+	}
+	variant<int, double, string>  convertRawData(string rawData) {
+		double doubleValue;
+		int intValue;
+		string stringValue;
+
+		variant<int, double, string> convertedData;
+
+		bool isInt = true;
+		bool isDouble = false;
+
+		for (int index = 0; index < rawData.length(); index++)
+		{
+			if (rawData[index] == '.' && !isDouble && isInt)
+			{
+				isDouble = true;
+			}
+			else if (!isdigit(rawData[index]))
+			{
+				isInt = false;
+			}
+
+
+		}
+
+		if (isDouble && isInt) {
+			doubleValue = stod(rawData);
+			convertedData = doubleValue;
+		}
+		else if (isInt) {
+			intValue = stoi(rawData);
+			convertedData = intValue;
+		}
+		else {
+			stringValue = rawData;
+			convertedData = stringValue;
+		}
+
+		return convertedData;
+
+	}
 
 	public:
 	DataCluster(vector < vector<variant<int, double, string>>> stringNodesVector){
@@ -108,6 +157,36 @@ public:
 		graph = createGraph(createdNodeVector);
 		createTrees(createdNodeVector);
 	}
+	vector<vector<Node*>> FindRelationships(variant<int, double, string>start, variant<int, double, string>end, variant<int, double, string>startCol, variant<int, double, string>endCol){
+		Tree* treeStart=new Tree();
+		Tree* treeEnd= new Tree();
+		for (int tree = 0; tree < coulmnTrees.size(); tree++) {
+			if (coulmnTrees[tree]->getRoot()->getLabel() == startCol)
+				treeStart = coulmnTrees[tree];
+			else if(coulmnTrees[tree]->getRoot()->getLabel() == endCol)
+				treeEnd = coulmnTrees[tree];
+		}
+		Node* startNode= treeStart->searchTree(treeStart->getRoot(), start);
+		Node* endNode= treeEnd->searchTree(treeEnd->getRoot(), end);
 
+		vector<vector<Node*>>result = graph->findRelationship(startNode, endNode);
+		return result;
+	}
+	// condition > target
+	vector<variant<int, double, string>> searchIF(variant<int, double, string>column, string condition) {
+		std::vector<std::string> words = split(condition);
+		Tree* treeSearch = new Tree();
+		for (int tree = 0; tree < coulmnTrees.size(); tree++) {
+			if (coulmnTrees[tree]->getRoot()->getLabel() == column)
+				treeSearch = coulmnTrees[tree];
+		}
+		vector<variant<int, double, string>>res;
+		variant<int, double, string> target = convertRawData(words[1]);
+		if (words[0] == ">")
+			res = treeSearch->searchIfLarger(treeSearch->getRoot(),target, res);
+		else if (words[0] == "<")
+			 res = treeSearch->searchIfLower(treeSearch->getRoot(), target, res);
+		return res;
+	}
 };
 

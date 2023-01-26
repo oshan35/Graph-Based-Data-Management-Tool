@@ -111,30 +111,37 @@ public:
 		else
 			return root;
 	}
-	/*
-	vector<Node*> searchIf(Node* root,string condition, vector<Node*> res) {
-		if (target > root->getData()) {
-			
-			
+	//> data
+	vector<variant<int, double, string>> searchIfLarger(Node* root, variant<int, double, string> target, vector<variant<int, double, string>> res) {
+		if (root == NULL)
+			return res;
 
-		}
-			root = searchTree(root->getright(), target);
-			root = searchTree(root->getLeft(), target);
-			
-		
-	}vector<Node*> searchIf(Node* root,string condition, vector<Node*> res) {
-		if (target > root->getData()) {
-			
-			
+		if (root->getData() > target)
+			res.push_back(root->getData());
 
-		}
-			root = searchTree(root->getright(), target);
-			root = searchTree(root->getLeft(), target);
-			
-		
-	}*/
-	
-	
+
+		res = searchIfLarger(root->getright(), target, res);
+		res = searchIfLarger(root->getLeft(), target, res);
+		return res;
+
+
+
+	}
+	vector<variant<int, double, string>> searchIfLower(Node* root, variant<int, double, string> target, vector<variant<int, double, string>> res) {
+		if (root == NULL)
+			return res;
+
+		if (root->getData() < target)
+			res.push_back(root->getData());
+
+
+		res = searchIfLower(root->getright(), target, res);
+		res = searchIfLower(root->getLeft(), target, res);
+		return res;
+
+
+
+	}
 
 };
 
