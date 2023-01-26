@@ -8,39 +8,35 @@
 #include <map>
 #include "Tree.h"
 #include "Graph.h"
+#include <sstream>
+#include <queue>
+#include <unordered_map>
 using namespace std;
 class DataCluster
-{
-	map<string,Tree*>  coulmnTrees;
+{public:
+	vector<Tree*> coulmnTrees;
 	Graph* graph;
-	
-	vector<vector<Node*>> createNodes(vector<vector<variant<int, double, string>>> rows) {// should first row be given seperately
-		vector<vector<Node*> > arr(rows.size(), vector<Node*>(rows[0].size()));
-		for (int i = 0; i < rows[0].size(); i++) {
-			map<variant<int, double, string>, vector<pair<int, int>>> nodeMap;
 
-			for (int j = 0; j < rows.size(); j++) {
+	vector<vector<Node*>> createNodes(vector < vector<variant<int, double, string>>> rowsInVector) {
+		std::vector<std::vector<Node*>> rowsOutVector(rowsInVector.size(), std::vector<Node*>(rowsInVector[0].size()));
 
-				if (nodeMap.count(rows[j][i]) == 0) {
-					vector<pair<int, int>> v1 = { { j,i } };
-					nodeMap.insert(std::make_pair(rows[j][i], v1));
-				}
-				else nodeMap[rows[j][i]].push_back({ j,i });
+		
+		for (int column = 0; column < rowsInVector[0].size(); column++) {
+			map<variant<int, double, string>, Node*> nodeMap;
+			vector<Node*> vecEle;
+
+			for (int row = 1; row < rowsInVector.size(); row++) {
+				Node* node = new Node(rowsInVector[0][column], rowsInVector[row][column]);
+				nodeMap[rowsInVector[row][column]] = node;
 			}
 			vector<vector<Node*> > arr(rows.size(), vector<Node*>(rows[0].size()));
 
-			for (const auto& [k, v] : nodeMap) {
-				for (int index = 0; index < v.size(); index++) {
-					Node* newNode = new Node(firstrow[i], k);
-					arr[v[index].first][v[index].second] = newNode;
-				}
-				return arr;
+			for (int row = 1; row < rowsOutVector.size(); row++) {
+				rowsOutVector[row].push_back( nodeMap[rowsInVector[row][column]]);
 			}
 		}
+		return rowsOutVector;
 	}
-
-
-
 	
 
 	map<string,Tree*>  createTrees(vector<vector<Node*>> nodeRawData){
