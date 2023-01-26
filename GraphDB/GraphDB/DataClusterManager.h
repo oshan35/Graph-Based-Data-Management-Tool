@@ -66,4 +66,9 @@ class DataClusterManager{
         DataCluster* newDataCluster= new DataCluster(convertRawData);
         dataClusters.push_back(newDataCluster);
     }
+
+    void findConnections(){
+        //Datacluster -> searchTreeNode(node)
+        
+    }
 }

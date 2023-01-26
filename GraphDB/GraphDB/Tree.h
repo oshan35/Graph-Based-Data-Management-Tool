@@ -108,6 +108,7 @@ public:
 		print(root->getLeft());
 		print(root->getright());
 	}
+	
 	string stringify(variant<int, double, string> const& value) {
 		if (int const* pval = std::get_if<int>(&value))
 			return to_string(*pval);

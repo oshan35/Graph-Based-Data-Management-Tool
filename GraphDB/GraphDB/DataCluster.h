@@ -11,8 +11,9 @@
 using namespace std;
 class DataCluster
 {
-	vector<Tree*> coulmnTrees;
+	map<string,Tree*>  coulmnTrees;
 	Graph* graph;
+	
 	vector<vector<Node*>> createNodes(vector < vector<variant<int, double, string>>> rows) {// should first row be given seperately
 		vector<vector<Node*> > arr(rows.size(), vector<Node*>(rows[0].size()));
 		for (int i = 0; i < rows[0].size(); i++) {
@@ -42,15 +43,18 @@ class DataCluster
 
 	
 
-	vector<Tree*> createTrees(vector<vector<Node*>> nodeRawData){
-		vector<Tree*> columnList;
+	map<string,Tree*>  createTrees(vector<vector<Node*>> nodeRawData){
+		map<string,Tree*> columnList;
 		for (int col = 0; col < nodeRawData.at(0).size(); col++)
 		{
-
-
+			string colName = NULL;
 			vector<Node*> nodeCol;
 			for (int row = 0; row < nodeRawData.size(); row++)
 			{
+				if(row==0){
+					colName = nodeRawData[row][col]
+					continue;
+				}
 				auto it = find(nodeCol.begin(), nodeCol.end(),nodeRawData[row][col]);
 				
 				if (it != nodeCol.end()){
@@ -64,7 +68,7 @@ class DataCluster
 			Tree* newTree=new Tree();
 			newTree->createTree(nodeCol);
 
-			columnList.push_back(newTree);
+			columnList[colName] = newTree;
 		}
 
 		return columnList;
@@ -99,6 +103,33 @@ class DataCluster
 		graph = new Graph(indexNode);
 	}
 
+	
+	void searchTreeNode(string colName, variant<int, double, string> dataPoint){
+		Tree* currentTree;
+		try
+		{
+			currentTree = coulmnTrees[colName];
+
+		}
+		catch(const std::exception& e)
+		{
+			std::cerr << "Column Name not found"<< '\n';
+		}
+		
+		
+		Node* dataPoint = currentTree->searchTree(currentTree->getRoot(),dataPoint);
+
+		vector<int> keyList;
+
+		for ( auto it = dataPoint->getInMap().begin(); it != dataPoint->getInMap().end(); ++it  )
+		{
+			keyList.push_back(it->first);
+		} 
+
+		
+		
+	}
+
 
 	
 	void createDataCluster(vector < vector<variant<int, double, string>>> rows){
@@ -106,6 +137,7 @@ class DataCluster
 		graph = createGraph(rowNodeData);
 		coulmnTrees = createTrees(rowNodeData);
 	}
+
 
 };
 
