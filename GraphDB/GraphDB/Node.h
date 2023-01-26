@@ -7,7 +7,7 @@ using namespace std;
 
 class Node
 {
-	string label;
+	variant<int, double, string> label;
 	variant<int, double, string> data;
 	map<int, Node*> inMap;
 	map<int, Node*> outMap;
@@ -20,7 +20,7 @@ public:
 	}
 	
 
-	Node(string label, variant<int, double, string> data) {
+	Node(variant<int, double, string> data, variant<int, double, string> label) {
 		this->label = label;
 		this->data = data;
 	}
