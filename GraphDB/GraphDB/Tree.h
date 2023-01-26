@@ -1,5 +1,5 @@
 
-#include<stdio.h>
+#include <stdio.h>
 #include<iostream>
 #include "Node.h"
 #include <vector>
@@ -20,6 +20,15 @@ class Tree
 	Data[middle]->setRight(vectorToBST(Data, middle + 1, end));
 	return Data[middle];
 }
+string stringify(variant<int, double, string> const& value) {
+		if (int const* pval = std::get_if<int>(&value))
+			return to_string(*pval);
+
+		if (double const* pval = std::get_if<double>(&value))
+			return to_string(*pval);
+
+		return get<string>(value);
+	}
 	vector<Node*> mergeArrays(vector<Node*> arr1, vector<Node*> arr2) {
 		vector<Node*> newArr;
 		int i = 0;
@@ -101,23 +110,8 @@ public:
 		else
 			return root;
 	}
-	void print(Node* root) {
-		if (root == NULL)
-			return;
-		cout << stringify(root->getData())<<" ";
-		print(root->getLeft());
-		print(root->getright());
-	}
 	
-	string stringify(variant<int, double, string> const& value) {
-		if (int const* pval = std::get_if<int>(&value))
-			return to_string(*pval);
-
-		if (double const* pval = std::get_if<double>(&value))
-			return to_string(*pval);
-
-		return get<string>(value);
-	}
+	
 
 };
 

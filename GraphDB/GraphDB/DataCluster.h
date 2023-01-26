@@ -24,20 +24,31 @@ class DataCluster
 		for (int column = 0; column < rowsInVector[0].size(); column++) {
 			map<variant<int, double, string>, Node*> nodeMap;
 			vector<Node*> vecEle;
+	vector<vector<Node*>> createNodes(vector < vector<variant<int, double, string>>> rowsInVector) {
+		std::vector<std::vector<Node*>> rowsOutVector(rowsInVector.size(), std::vector<Node*>(rowsInVector[0].size()));
+
+		
+		for (int column = 0; column < rowsInVector[0].size(); column++) {
+			map<variant<int, double, string>, Node*> nodeMap;
+			vector<Node*> vecEle;
 
 			for (int row = 1; row < rowsInVector.size(); row++) {
 				Node* node = new Node(rowsInVector[0][column], rowsInVector[row][column]);
 				nodeMap[rowsInVector[row][column]] = node;
+			for (int row = 1; row < rowsInVector.size(); row++) {
+				Node* node = new Node(rowsInVector[0][column], rowsInVector[row][column]);
+				nodeMap[rowsInVector[row][column]] = node;
 			}
-			vector<vector<Node*> > arr(rows.size(), vector<Node*>(rows[0].size()));
 
 			for (int row = 1; row < rowsOutVector.size(); row++) {
 				rowsOutVector[row][column]=nodeMap[rowsInVector[row][column]];
 			}
+
 		}
 		return rowsOutVector;
+		return rowsOutVector;
 	}
-	
+		
 
 	map<string,Tree*>  createTrees(vector<vector<Node*>> nodeRawData){
 		map<string,Tree*> columnList;
@@ -94,10 +105,7 @@ class DataCluster
 
 
 	public:
-	DataCluster(){
-		Node* indexNode = new Node();
-		graph = new Graph(indexNode);
-	}
+	DataCluster(vector < vector<variant<int, double, string>>> stringNodesVector){
 
 	
 	void searchTreeNode(string colName, variant<int, double, string> dataPoint){
