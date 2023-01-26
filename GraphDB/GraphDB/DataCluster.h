@@ -14,7 +14,7 @@ class DataCluster
 	map<string,Tree*>  coulmnTrees;
 	Graph* graph;
 	
-	vector<vector<Node*>> createNodes(vector < vector<variant<int, double, string>>> rows) {// should first row be given seperately
+	vector<vector<Node*>> createNodes(vector<vector<variant<int, double, string>>> rows) {// should first row be given seperately
 		vector<vector<Node*> > arr(rows.size(), vector<Node*>(rows[0].size()));
 		for (int i = 0; i < rows[0].size(); i++) {
 			map<variant<int, double, string>, vector<pair<int, int>>> nodeMap;
@@ -126,7 +126,7 @@ class DataCluster
 			keyList.push_back(it->first);
 		} 
 
-		
+
 		
 	}
 
