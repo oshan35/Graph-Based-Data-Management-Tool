@@ -13,33 +13,42 @@
 #include <unordered_map>
 using namespace std;
 class DataCluster
-{public:
+{
+public:
 	vector<Tree*> coulmnTrees;
 	Graph* graph;
 
-	vector<vector<Node*>> createNodes(vector < vector<variant<int, double, string>>> rowsInVector) {
-		std::vector<std::vector<Node*>> rowsOutVector(rowsInVector.size(), std::vector<Node*>(rowsInVector[0].size()));
+	vector < vector<Node*>> createNodes(vector < vector<variant<int, double, string>>> rows) {
+		vector<vector<Node*> > arr(rows.size(), vector<Node*>(rows[0].size()));
+		for (int i = 0; i < rows[0].size(); i++) {
+			map<variant<int, double, string>, vector<pair<int, int>>> nodeMap;
 
-		
-		for (int column = 0; column < rowsInVector[0].size(); column++) {
-			map<variant<int, double, string>, Node*> nodeMap;
-			vector<Node*> vecEle;
+			for (int j = 1; j < rows.size(); j++) {
 
-			for (int row = 1; row < rowsInVector.size(); row++) {
-				Node* node = new Node(rowsInVector[0][column], rowsInVector[row][column]);
-				nodeMap[rowsInVector[row][column]] = node;
+				if (nodeMap.count(rows[j][i]) == 0) {
+					vector<pair<int, int>> v1 = { { j,i } };
+					nodeMap.insert(std::make_pair(rows[j][i], v1));
+				}
+				else nodeMap[rows[j][i]].push_back({ j,i });
 			}
 
-			for (int row = 1; row < rowsOutVector.size(); row++) {
-				rowsOutVector[row].push_back( nodeMap[rowsInVector[row][column]]);
+			for (const auto& [k, v] : nodeMap) {
+				Node* newNode = new Node(k, rows[0][i]);
+				for (int index = 0; index < v.size(); index++) {
+
+					arr[(v[index].first) - 1][(v[index].second)] = newNode;
+				}
+
 			}
+
 
 		}
-		return rowsOutVector;
-	}
-	
+		return arr;
 
-	vector<Tree*> createTrees(vector<vector<Node*>> nodeRawData){
+	}
+
+
+	vector<Tree*> createTrees(vector<vector<Node*>> nodeRawData) {
 		vector<Tree*> columnList;
 		for (int col = 0; col < nodeRawData.at(0).size(); col++)
 		{
@@ -48,39 +57,41 @@ class DataCluster
 			vector<Node*> nodeCol;
 			for (int row = 0; row < nodeRawData.size(); row++)
 			{
-				auto it = find(nodeCol.begin(), nodeCol.end(),nodeRawData[row][col]);
-				
-				if (it != nodeCol.end()){
+				auto it = find(nodeCol.begin(), nodeCol.end(), nodeRawData[row][col]);
+
+				if (it != nodeCol.end()) {
 					continue;
-				}else{
+				}
+				else {
 					nodeCol.push_back(nodeRawData[row][col]);
 				}
 
 			}
 
-			Tree* newTree=new Tree();
+			Tree* newTree = new Tree();
 			newTree->createTree(nodeCol);
 
 			columnList.push_back(newTree);
 		}
 
 		return columnList;
-		
+
 	}
 
-	Graph* createGraph(vector<vector<Node*>> nodeRawData){
-		
-		Graph* newGraph = new Graph();
+	Graph* createGraph(vector<vector<Node*>> nodeRawData) {
+		Node* node = new Node(2, 5);
+		Graph* newGraph = new Graph(node);
 
-		for(int row=0; row < nodeRawData.size(); row++){
+		for (int row = 0; row < nodeRawData.size(); row++) {
 			Node* prev = nullptr;
-			for(int col=0; col < nodeRawData[0].size(); col++){
+			for (int col = 0; col < nodeRawData[0].size(); col++) {
 				Node* curr = nodeRawData[row][col];
-				if(col == 0){
-					graph->indexNode->addOutRelation(row,curr);
+				if (col == 0) {
+					newGraph->indexNode->addOutRelation(row, curr);
 					prev = curr;
-				}else{
-					graph->insertNode(prev,curr,row);
+				}
+				else {
+					newGraph->insertNode(prev, curr, row);
 					prev = curr;
 				}
 			}
