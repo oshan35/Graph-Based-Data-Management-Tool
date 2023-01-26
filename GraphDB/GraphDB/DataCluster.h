@@ -9,47 +9,35 @@
 #include "Tree.h"
 #include "Graph.h"
 #include <sstream>
+#include <queue>
+#include <unordered_map>
 using namespace std;
 class DataCluster
-{
+{public:
 	vector<Tree*> coulmnTrees;
 	Graph* graph;
 
-	vector<vector<Node*>> createNodes(vector < vector<variant<int, double, string>>> rows) {// should first row be given seperately
-		vector<vector<Node*> > arr(rows.size(), vector<Node*>(rows[0].size()));
-		for (int i = 0; i < rows[0].size(); i++) {
-			map<variant<int, double, string>, vector<pair<int, int>>> nodeMap;
+	vector<vector<Node*>> createNodes(vector < vector<variant<int, double, string>>> rowsInVector) {
+		std::vector<std::vector<Node*>> rowsOutVector(rowsInVector.size(), std::vector<Node*>(rowsInVector[0].size()));
 
-			for (int j = 1; j < rows.size(); j++) {
+		
+		for (int column = 0; column < rowsInVector[0].size(); column++) {
+			map<variant<int, double, string>, Node*> nodeMap;
+			vector<Node*> vecEle;
 
-				if (nodeMap.count(rows[j][i]) == 0) {
-					vector<pair<int, int>> v1 = { { j,i } };
-					nodeMap.insert(std::make_pair(rows[j][i], v1));
-				}
-				else nodeMap[rows[j][i]].push_back({ j,i });
+			for (int row = 1; row < rowsInVector.size(); row++) {
+				Node* node = new Node(rowsInVector[0][column], rowsInVector[row][column]);
+				nodeMap[rowsInVector[row][column]] = node;
 			}
 
-			for (const auto& [k, v] : nodeMap) {
-				Node* newNode = new Node(stringify(rows[0][i]), k);
-				for (int index = 0; index < v.size(); index++) {
-
-					arr[v[index].first][v[index].second] = newNode;
-				}
-
+			for (int row = 1; row < rowsOutVector.size(); row++) {
+				rowsOutVector[row].push_back( nodeMap[rowsInVector[row][column]]);
 			}
 
 		}
-		return arr;
+		return rowsOutVector;
 	}
-	string stringify(variant<int, double, string> const& value) {
-		if (int const* pval = std::get_if<int>(&value))
-			return std::to_string(*pval);
-
-		if (double const* pval = std::get_if<double>(&value))
-			return to_string(*pval);
-
-		return get<string>(value);
-	}
+	
 
 	vector<Tree*> createTrees(vector<vector<Node*>> nodeRawData){
 		vector<Tree*> columnList;

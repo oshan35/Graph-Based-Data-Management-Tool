@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <string>
-
+#include "DataCluster.h"
 #include <sstream>
 
 /*void increseData(Tree* tree) {
@@ -207,7 +207,7 @@ int main() {
 	Node* node7 = new Node("age", 22);
 	Node* node8 = new Node("age", 23);
 	Node* node9 = new Node("Uni", "Ruhuna");
-	Node* node10 = new Node("Education", "Ruhuna");
+	Node* node10 = new Node("Carrer", "Education");
 	Node* node11 = new Node("Degree", "Engineering");
 	Graph* graph = new Graph(node11);
 	graph->insertNode(node9, node10, 1);
@@ -229,27 +229,56 @@ int main() {
 	graph->insertNode(node11, node5, 1);
 	graph->insertNode(node11, node5, 2);
 	graph->insertNode(node11, node5, 3);
-	graph->insertNode(node11, node6, 4);	
+	graph->insertNode(node11, node6, 4);
+	map<int,Node*>dvv=node11->getOutMap();
+	//vector<vector<Node*>>result1 = graph->findRelationship(node10, node11);
 	/*
-	for (const auto& [key, value] : node10->getInMap()) {
-		std::cout << std::visit(make_string_functor(), value->getData()) << "\n";
-	}
-	*/
-	vector<vector<Node*>> res;
-	vector<Node*>input;
-	vector<vector<Node*>> res_got = graph->findInPath(node7, node5, res, input, 0);
-	if (res_got.empty()) {
-		res_got= graph->findOutPath(node11, node9, res, input, 0);
+	for (auto& [key, value] : dvv) {
+		std::visit([](auto&& arg) {std::cout << arg << std::endl; }, value->getData());
 	}
 	
-	for (int i = 0; i < res_got.size(); i++) {
-		for (int j = 0; j < res_got[i].size(); j++) {
+	
+	
+	vector<Node*>row1={node11,node5,node1,node7,node9,node10};
+	vector<Node*>row2={node11,node5,node2,node7,node9,node10};
+	vector<Node*>row3={node11,node6,node4,node8,node9,node10};
+	vector<Node*>row4={node11,node5,node3,node8,node9,node10};
+	vector<vector<Node*>> nodeTable={row1,row2,row3,row4};
+	DataCluster* cluster=new DataCluster(nodeTable);
+	*/
+	
+	//Graph* res_created=cluster->graph;
+	//vector<vector<Node*>>result=res_created->findRelationship(node10,node11);
+	
+
+	vector<vector<variant<int, double, string>>> RowData
+	{
+		{"Name", "Age", "District", "University", "Faculty"},
+		{"Ashen", 22, "Gampha", "Ruhuna", "Engineering"},
+		{"Nehara", 21, "Matara", "Ruhuna", "Engineering"},
+		{"Oshan", 22, "Colombo", "Moratuwa", "Manegement"},
+		{"Dahami", 21, "Galle", "Japura", "Medicine"},
+		{"Sam", 23, "Vauniya", "Jaffna", "Engineering"}
 
 
-			std::cout << std::visit(make_string_functor(), res_got[i][j]->getData()) << "\n";
+	};
+	DataCluster* cluster = new DataCluster(RowData);
+	Graph* res_created = cluster->graph;
+	vector<Tree*> tree = cluster->coulmnTrees;
+	Node* start=tree[1]->searchTree(tree[1]->getRoot(), 21);
+	Node* end = tree[4]->searchTree(tree[4]->getRoot(), "Engineering");
+	vector<vector<Node*>>result = res_created->findRelationship(start, end);
+	
+	for (int i = 0; i < result.size(); i++) {
+		for (int j = 0; j < result[i].size(); j++) {
+
+
+			std::cout << std::visit(make_string_functor(), result[i][j]->getData()) << "\n";
 		}
 		cout << endl;
 	}
+	
 	return 0;
+	
 	
 }
