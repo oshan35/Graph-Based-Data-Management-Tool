@@ -7,10 +7,82 @@ using namespace std;
 
 class Graph
 {
-	Node* indexNode;
 	int numOfNodes;
+	vector<vector<Node*>> findInPath(Node* start, Node* end, vector<vector<Node*>>Paths, vector<Node*>newPath, int level) {
+		level++;
+		if (start == end) {
+			Paths.push_back(newPath);
+			return Paths;
+		}
+		if (start == NULL)
+			return { {} };
 
+		std::vector<Node*> values;
+		for (auto& elem : start->getInMap()) {
+			values.push_back(elem.second);
+		}
+		auto last = std::unique(values.begin(), values.end());
+		values.erase(last, values.end());
+
+		for (const auto value : values) {
+			if (level == 1)
+				newPath = { start,value };
+			else {
+				for (int i = 0; i < newPath.size(); i++) {
+					if (newPath[i]->getLabel() == value->getLabel())
+						newPath.erase(newPath.begin() + i);
+				}
+
+				newPath.push_back(value);
+			}
+
+
+			Paths = findInPath(value, end, Paths, newPath, level);
+		}
+		return Paths;
+
+	}
+vector<vector<Node*>> findOutPath(Node* start, Node* end, vector<vector<Node*>>Paths, vector<Node*>newPath, int level) {
+		level++;
+		if (start == end) {
+			Paths.push_back(newPath);
+			return Paths;
+		}
+		if (start == NULL)
+			return { {} };
+		std::vector<Node*> values;
+		for (auto& elem : start->getOutMap()) {
+			values.push_back(elem.second);
+		}
+		auto last = std::unique(values.begin(), values.end());
+		values.erase(last, values.end());
+
+		for (const auto value: values) {
+			if (level == 1)
+				newPath = { start,value };
+			else {
+				for (int i = 0; i < newPath.size(); i++) {
+					if (newPath[i]->getLabel() == value->getLabel())
+						newPath.erase(newPath.begin() + i);
+				}
+
+				newPath.push_back(value);
+			}
+
+
+			Paths = findOutPath(value, end, Paths, newPath, level);
+		}
+		return Paths;
+
+	}
 public:
+	Node* indexNode;
+
+	Graph(){
+		Node* newNode = new Node();
+		indexNode = newNode;
+	}
+
 	Graph(Node* indexNode) {
 		this->indexNode = indexNode;
 		numOfNodes = 1;
@@ -24,35 +96,19 @@ public:
 		numOfNodes++;
 	}
 
-	void searchNode() {
-		Node* start = indexNode;
-		queue<Node*> q;
-
-		unordered_set<Node*> visited;
-
-		q.push(start);
-
-		visited.insert(start);
-
-		while (!q.empty()) {
-			Node* curr = q.front();
-			q.pop();
-			map<int, Node*> outmap;
-
-			for (auto i = outmap.begin(); i != outmap.end(); i++) {
-				if (!visited.count(i->second)) {
-					q.push(i->second);
-					visited.insert(i->second);
-				}
-			}
-				
-		}
-
-
-
+	
+	vector<vector<Node*>> findRelationship(Node* start,Node* end){
 		
+		
+		vector<vector<Node*>> res;
+		vector<Node*>input;
+		vector<vector<Node*>> res_got = findInPath(start, end, res, input, 0);
+		if (res_got.empty()) {
+			res_got= findOutPath(start, end, res, input, 0);
+		}
+		return res_got;
 	}
-
+	
 
 
 };

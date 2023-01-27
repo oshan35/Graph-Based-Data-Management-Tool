@@ -7,7 +7,7 @@ using namespace std;
 
 class Node
 {
-	string label;
+	variant<int, double, string> label;
 	variant<int, double, string> data;
 	map<int, Node*> inMap;
 	map<int, Node*> outMap;
@@ -16,9 +16,11 @@ class Node
 
 
 public:
+	Node(){
+	}
 	
 
-	Node(string label, variant<int, double, string> data) {
+	Node(variant<int, double, string> data, variant<int, double, string> label) {
 		this->label = label;
 		this->data = data;
 	}
@@ -50,9 +52,22 @@ public:
 	Node* getright() {
 		return right;
 	}
+	variant<int, double, string> getLabel() {
+		return label;
+	}
 	variant<int, double, string> getData() {
 		return data;
 	}
+	map<int, Node*> getInMap(){
+		return inMap;
+	}
+	map<int, Node*> getOutMap(){
+		return outMap;
+	}
+
+	bool operator==(const Node& other) const {
+    	return data == other.data && label == other.label;
+  	}
 
 };
 

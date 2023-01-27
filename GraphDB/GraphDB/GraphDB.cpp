@@ -1,17 +1,71 @@
-// GraphDB.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+
 
 #include <iostream>
+#include <string>
+#include "DataCluster.h"
+#include <sstream>
+#include "Graph.h"
+#include <iostream>
+#include <sstream>
+using namespace std;
+struct make_string_functor {
+	std::string operator()(const std::string& x) const { return x; }
+	std::string operator()(int x) const { return std::to_string(x); }
+};
+int main() {
+	
+	vector<vector<variant<int, double, string>>> RowData
+	{
+		{"Name", "Age", "District", "University", "Faculty"},
+		{"Ashen", 22, "Gampha", "Ruhuna", "Engineering"},
+		{"Nehara", 23, "Matara", "Ruhuna", "Engineering"},
+		{"Oshan", 22, "Colombo", "Moratuwa", "Manegement"},
+		{"Dahami", 21, "Galle", "Japura", "Medicine"},
+		{"Sam", 22, "Vauniya", "Jaffna", "Engineering"}
+
+
+	};
+	DataCluster* cluster = new DataCluster(RowData);
+	vector<vector<Node*>>result = cluster->FindRelationships(22, "Engineering", "Age", "Faculty");
+	vector<variant<int, double, string>> res = cluster->searchIF("Age", "> 21");
+	//findRelationship Cluster
 
 
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+
+	//findRelationship
+	/*
+	Graph* res_created = cluster->graph;
+	vector<Tree*> tree = cluster->coulmnTrees;
+	Node* start=tree[1]->searchTree(tree[1]->getRoot(), 22);
+	Node* end = tree[4]->searchTree(tree[4]->getRoot(), "Engineering");
+	vector<vector<Node*>>result = res_created->findRelationship(start, end);*/
+	
+	
+	for (int i = 0; i < result.size(); i++) {
+		for (int j = 0; j < result[i].size(); j++) {
+
+
+			std::cout << std::visit(make_string_functor(), result[i][j]->getData()) << "\n";
+		}
+		cout << endl;
+	}
+	for (int j = 0; j < res.size(); j++) {
+
+
+		std::cout << std::visit(make_string_functor(), res[j]) << "\n";
+	}
+	//
+	
+	/*
+	* vector<variant<int, double, string>> res1;
+	vector<variant<int, double, string>> res = tree[2]->searchIfLarger(tree[1]->getRoot(), 21, res1);
+	
+	cout << endl;
+	*/
+	//searchIf
+	
+	//
+	return 0;
+}

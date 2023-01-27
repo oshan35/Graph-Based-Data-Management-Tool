@@ -1,10 +1,11 @@
-#pragma once
-#include<stdio.h>
+
+#include <stdio.h>
 #include<iostream>
 #include "Node.h"
 #include <vector>
 #include<algorithm>
 #include<variant>
+#include <sstream>
 
 using namespace std;
 class Tree
@@ -19,6 +20,15 @@ class Tree
 	Data[middle]->setRight(vectorToBST(Data, middle + 1, end));
 	return Data[middle];
 }
+string stringify(variant<int, double, string> const& value) {
+		if (int const* pval = std::get_if<int>(&value))
+			return to_string(*pval);
+
+		if (double const* pval = std::get_if<double>(&value))
+			return to_string(*pval);
+
+		return get<string>(value);
+	}
 	vector<Node*> mergeArrays(vector<Node*> arr1, vector<Node*> arr2) {
 		vector<Node*> newArr;
 		int i = 0;
@@ -51,6 +61,7 @@ class Tree
 		return newArr;
 
 	}
+	
 	vector<Node*> mergeSort(vector<Node*> arr, int start, int end) {
 		if (start == end) {
 			vector<Node*> res = { arr[start] };
@@ -63,7 +74,6 @@ class Tree
 
 
 	}
-
 
 
 public:
@@ -80,9 +90,10 @@ public:
 	Node* getRoot() {
 		return root;
 	}
-	Node* createTree(vector <Node*> Data) {
+	void createTree(vector <Node*> Data) {
 		vector<Node*> sortedVector = mergeSort(Data, 0, Data.size() - 1);
-		return (vectorToBST(Data, 0, Data.size() - 1));
+		root=vectorToBST(sortedVector, 0, Data.size() - 1);
+		
 		//returns the root of the created tree
 
 	}
@@ -100,7 +111,37 @@ public:
 		else
 			return root;
 	}
-	
+	//> data
+	vector<variant<int, double, string>> searchIfLarger(Node* root, variant<int, double, string> target, vector<variant<int, double, string>> res) {
+		if (root == NULL)
+			return res;
+
+		if (root->getData() > target)
+			res.push_back(root->getData());
+
+
+		res = searchIfLarger(root->getright(), target, res);
+		res = searchIfLarger(root->getLeft(), target, res);
+		return res;
+
+
+
+	}
+	vector<variant<int, double, string>> searchIfLower(Node* root, variant<int, double, string> target, vector<variant<int, double, string>> res) {
+		if (root == NULL)
+			return res;
+
+		if (root->getData() < target)
+			res.push_back(root->getData());
+
+
+		res = searchIfLower(root->getright(), target, res);
+		res = searchIfLower(root->getLeft(), target, res);
+		return res;
+
+
+
+	}
 
 };
 
