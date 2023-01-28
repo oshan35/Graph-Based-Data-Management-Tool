@@ -30,6 +30,36 @@ int main() {
 	vector<variant<int, double, string>> res = cluster->searchIF("Age", "> 21");
 	//findRelationship Cluster
 
+		variant<int, double, string> data = "Ruhuna";
+	vector<variant<int, double, string>> targetCols{"Name","District"};
+
+	
+
+	vector<vector<variant<int, double, string>>> allConnections = cluster->getConnections(3,targetCols,data);
+
+
+	cout<<"----------------------------------------------"<<endl;
+
+	cout<<"col Name: "<<std::visit(make_string_functor(), cluster->coulmnTrees[3]->getRoot()->getLabel())<<endl;
+
+	cout<<"is empty: "<<allConnections.empty()<<endl;
+
+	for ( int i=0;i<allConnections.size();i++)
+	{
+		for (int j=0;j<allConnections[i].size();j++)
+		{
+			variant<int,double,string> point = allConnections[i][j];
+
+			cout<<std::visit(make_string_functor(), point)<<" ";
+		}
+		cout<<endl;
+		
+	}
+
+	cout<<"----------------------------------------------"<<endl;
+	
+
+
 
 
 
