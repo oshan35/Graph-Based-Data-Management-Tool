@@ -65,6 +65,14 @@ public:
 		return outMap;
 	}
 
+	Node* getOutRelation(int index){
+		return outMap[index];
+	}
+
+	Node* getInRelation(int index){
+		return inMap[index];
+	}
+
 	bool operator==(const Node& other) const {
     	return data == other.data && label == other.label;
   	}

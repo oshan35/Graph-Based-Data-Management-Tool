@@ -75,6 +75,9 @@ vector<vector<Node*>> findOutPath(Node* start, Node* end, vector<vector<Node*>>P
 		return Paths;
 
 	}
+
+
+
 public:
 	Node* indexNode;
 
@@ -107,6 +110,33 @@ public:
 			res_got= findOutPath(start, end, res, input, 0);
 		}
 		return res_got;
+	}
+
+
+	
+	vector<vector<variant<int, double, string>>> searchByIndexes(vector<int> indexVector,vector<string> columns ){
+		vector<vector<variant<int, double, string>>> searchResults;
+		for(int i=0;i<indexVector.size();i++){
+			vector<variant<int, double, string>> resultRow;
+
+			int index = indexVector[i];
+
+			Node* currentNode = indexNode->getOutRelation(index);
+
+			while (!currentNode->getOutMap().empty())
+			{
+				if (std::find(columns.begin(), columns.end(), currentNode->getData()) != columns.end())
+				{
+					resultRow.push_back(currentNode->getData());
+				}
+				
+				currentNode = currentNode->getOutRelation(index);
+			}
+			
+		}
+
+		return searchResults;
+
 	}
 	
 
