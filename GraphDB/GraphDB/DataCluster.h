@@ -149,6 +149,26 @@ public:
 
 	}
 
+	Node* findTreeNode(Node* node, variant<int, double, string> data){
+		if(node == NULL){
+			return NULL;
+		}else if(node->getData() == data){
+			return node;
+		}
+
+		Node* left= findTreeNode(node->getLeft(),data);
+		Node* right=findTreeNode(node->getright(),data);
+
+		if (left == NULL)
+		{
+			return right;
+		}else{
+			return left;
+		}
+		
+		
+	}
+
 	public:
 	DataCluster(vector < vector<variant<int, double, string>>> stringNodesVector){
 
@@ -187,6 +207,27 @@ public:
 		else if (words[0] == "<")
 			 res = treeSearch->searchIfLower(treeSearch->getRoot(), target, res);
 		return res;
+	}
+
+	
+	vector<vector<variant<int, double, string>>> getConnections(int colIndex, vector<variant<int, double, string>> columns ,variant<int, double, string> data){
+		Node* treeHead = coulmnTrees[colIndex]->getRoot();
+
+		Node* tragetNode = findTreeNode(treeHead, data);
+
+		vector<int> allIndexes;
+
+
+		for (const auto &item : tragetNode->getInMap()) {
+        	allIndexes.push_back(item.first);
+    	}
+
+		vector<vector<variant<int, double, string>>> searchResult = graph->searchByIndexes(allIndexes,columns);
+
+		return searchResult;
+
+
+
 	}
 };
 

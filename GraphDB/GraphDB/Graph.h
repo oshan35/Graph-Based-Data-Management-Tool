@@ -114,7 +114,7 @@ public:
 
 
 	
-	vector<vector<variant<int, double, string>>> searchByIndexes(vector<int> indexVector,vector<string> columns ){
+	vector<vector<variant<int, double, string>>> searchByIndexes(vector<int> indexVector,vector<variant<int, double, string>> columns ){
 		vector<vector<variant<int, double, string>>> searchResults;
 		for(int i=0;i<indexVector.size();i++){
 			vector<variant<int, double, string>> resultRow;
@@ -125,13 +125,15 @@ public:
 
 			while (!currentNode->getOutMap().empty())
 			{
-				if (std::find(columns.begin(), columns.end(), currentNode->getData()) != columns.end())
+				if (std::find(columns.begin(), columns.end(), currentNode->getLabel()) != columns.end())
 				{
 					resultRow.push_back(currentNode->getData());
 				}
 				
 				currentNode = currentNode->getOutRelation(index);
 			}
+
+			searchResults.push_back(resultRow);
 			
 		}
 
