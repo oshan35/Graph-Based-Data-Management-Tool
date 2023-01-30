@@ -6,7 +6,7 @@
 using namespace std;
 
 class DataClusterManager{
-    vector<DataCluster> dataClusters;
+    map<string,DataCluster*> dataClusters;
 
     variant<int, double, string>  convertRawData(string rawData){
         double doubleValue;
@@ -47,21 +47,23 @@ class DataClusterManager{
     }
 
 public:
-    void createDataCluster(vector<vector<*string>> *rawData){
-        vector<vector<variant<int, double, string>> *convertedRawData;
+    void createDataCluster(string clusterName,vector<vector<string>> rawData){
+        vector<vector<variant<int, double, string>>> convertedRawData;
 
-        for(int row=0;row<rawData->size();row++){
-            vector<varient<int, double, string>> *dataRow;
+        for(int row=0;row<rawData.size();row++){
+            vector<variant<int, double, string>> dataRow;
             for (int col=0;col<rawData[0].size();col++)
             {
-                variant<int, double, string> convertedData = convertedData(rawData[row][col]);
+                variant<int, double, string> convertedData = convertRawData(rawData[row][col]);
                 dataRow.push_back(convertedData);
             }
             convertedRawData.push_back(dataRow);           
         }
 
         DataCluster* newDataCluster= new DataCluster(convertedRawData);
-        dataClusters.push_back(newDataCluster);
+        dataClusters[clusterName]=(newDataCluster);
     }
-
+    map<string, DataCluster*> getDataClusters() {
+        return dataClusters;
+    }
 };
