@@ -84,8 +84,8 @@ int main() {
 			  
 		case(2): {
 			cout << "Select a cluster " << endl;
-			for (const auto& [key, value] : dataclusterManager->getDataClusters()) {
-				std::cout <<  value << std::endl;
+			for (auto clusterName:dataclusterManager->getClusterNames()) {
+				std::cout <<  clusterName << std::endl;
 			}
 			cout << "Enter your choice" << endl;
 			string clustername;
@@ -112,11 +112,11 @@ int main() {
 					string data2;
 					cin >> data2;
 					variant<int, double, string>  converteddata2 = convertData(data2);
-					vector< vector<variant<int, double, string>>> Paths=dataclusterManager->getDataClusters()[clustername]->FindPaths(converteddata1, converteddata2, col1, col2);
+					vector< vector<Node*>> Paths=dataclusterManager->getDataClusters(clustername)->FindPaths(converteddata1, converteddata2, col1, col2);
 					cout << " ------------------------------------------------------------- ";
 					for (int i = 0; i < Paths.size(); i++) {
 						for (int j = 0; j < Paths[i].size(); j++) {
-							std::visit([](const auto& value) { std::cout << value; }, Paths[i][j]);
+							std::visit([](const auto& value) { std::cout << value; }, Paths[i][j]->getData());
 							if(j!= Paths[i].size()-1)
 								cout << "-->";
 						}
@@ -145,16 +145,16 @@ int main() {
 					vector<variant<int, double, string>> res;
 					switch(selection){
 					case(1):{
-						 res= dataclusterManager->getDataClusters()[clustername]->searchIF(colName,dataconverted,1);
+						 res= dataclusterManager->getDataClusters(clustername)->searchIF(colName,dataconverted,1);
 						}
 					case(2):{
-						res = dataclusterManager->getDataClusters()[clustername]->searchIF(colName, dataconverted, 2);
+						res = dataclusterManager->getDataClusters(clustername)->searchIF(colName, dataconverted, 2);
 						}
 					case(3): {
-						res = dataclusterManager->getDataClusters()[clustername]->searchIF(colName, dataconverted, 3);
+						res = dataclusterManager->getDataClusters(clustername)->searchIF(colName, dataconverted, 3);
 					}
 					case(4): {
-						res = dataclusterManager->getDataClusters()[clustername]->searchIF(colName, dataconverted, 4);
+						res = dataclusterManager->getDataClusters(clustername)->searchIF(colName, dataconverted, 4);
 					}
 					}
 					cout << " ------------------------------------------------------------- ";

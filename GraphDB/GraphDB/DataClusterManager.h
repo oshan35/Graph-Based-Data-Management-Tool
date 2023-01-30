@@ -63,7 +63,17 @@ public:
         DataCluster* newDataCluster= new DataCluster(convertedRawData);
         dataClusters[clusterName]=(newDataCluster);
     }
-    map<string, DataCluster*> getDataClusters() {
-        return dataClusters;
+    DataCluster* getDataClusters(string clustername) {
+        return dataClusters[clustername];
+    }
+
+    vector<string> getClusterNames(){
+        vector<string> namevec;
+        for (auto const& [key, val] : dataClusters)
+        {
+            namevec.push_back(key);
+        }
+        
+        return namevec;
     }
 };

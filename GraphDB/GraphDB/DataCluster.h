@@ -177,7 +177,7 @@ public:
 		graph = createGraph(createdNodeVector);
 		createTrees(createdNodeVector);
 	}
-	vector < vector<variant<int, double, string>>> FindPaths(variant<int, double, string>start, variant<int, double, string>end, variant<int, double, string>startCol, variant<int, double, string>endCol){
+	vector < vector<Node*>> FindPaths(variant<int, double, string>start, variant<int, double, string>end, variant<int, double, string>startCol, variant<int, double, string>endCol){
 		Tree* treeStart=new Tree();
 		Tree* treeEnd= new Tree();
 		for (int tree = 0; tree < coulmnTrees.size(); tree++) {
@@ -190,15 +190,15 @@ public:
 		Node* endNode= treeEnd->searchTree(treeEnd->getRoot(), end);
 
 		vector<vector<Node*>>result = graph->findRelationship(startNode, endNode);
-		vector < vector<variant<int, double, string>>> res2;
-		for (int i = 0; i < result.size(); i++) {
-			vector < variant<int, double, string>> res1;
-			for (int j = 0; j < result[i].size(); j++) {
-				res1.push_back(result[i][j]->getData());
-			}
-			res2.push_back(res1);
-		}
-		return res2;
+		// vector < vector<variant<int, double, string>>> res2;
+		// for (int i = 0; i < result.size(); i++) {
+		// 	vector < variant<int, double, string>> res1;
+		// 	for (int j = 0; j < result[i].size(); j++) {
+		// 		res1.push_back(result[i][j]->getData());
+		// 	}
+		// 	res2.push_back(res1);
+		// }
+		return result;
 	}
 	
 	vector<variant<int, double, string>> searchIF(variant<int, double, string>column, variant<int, double, string> target,int condition) {
