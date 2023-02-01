@@ -8,6 +8,7 @@
 #include <sstream>
 #include "FileManager.h"
 #include "DataClusterManager.h"
+
 using namespace std;
 struct make_string_functor {
 	std::string operator()(const std::string& x) const { return x; }
@@ -70,8 +71,8 @@ int main() {
 			cin >> clusterName;
 			
 			std::cout << "Enter the file path: ";
-			string path;
-			cin >> path;
+			string path = "./TestingData/TestData.csv";
+			//cin >> path;
 
 			
 			
@@ -107,12 +108,13 @@ int main() {
 					cout << "Enter data 1" << endl;
 					string data1;
 					cin >> data1;
-					variant<int, double, string>  converteddata1=convertData(data1);
+					variant<int, double, string>  converteddata1=dataclusterManager->convertRawData(data1);
 					cout << "Enter data 2" << endl;
 					string data2;
 					cin >> data2;
-					variant<int, double, string>  converteddata2 = convertData(data2);
-					vector< vector<Node*>> Paths=dataclusterManager->getDataClusters(clustername)->FindPaths(converteddata1, converteddata2, col1, col2);
+					variant<int, double, string>  converteddata2 = dataclusterManager->convertRawData(data2);
+					DataCluster* targetCluster = dataclusterManager->getDataClusters(clustername);
+					vector< vector<Node*>> Paths = targetCluster->FindPaths(converteddata1, converteddata2, col1, col2);
 					cout << " ------------------------------------------------------------- ";
 					for (int i = 0; i < Paths.size(); i++) {
 						for (int j = 0; j < Paths[i].size(); j++) {
