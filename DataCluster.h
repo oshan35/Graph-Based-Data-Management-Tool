@@ -50,6 +50,7 @@ public:
 	}
 
 
+
 	void createTrees(vector<vector<Node*>> nodeRawData) {
 		
 		
@@ -179,6 +180,20 @@ public:
 		graph = createGraph(createdNodeVector);
 		createTrees(createdNodeVector);
 	}
+
+
+	vector<variant<int, double, string>> getColumnList(){
+		vector<variant<int, double, string>> keyList;
+
+		for(const auto &item : coulmnTrees){
+			keyList.push_back(item.first);
+		}
+
+		return keyList;
+
+	}
+
+
 	vector < vector<Node*>> FindPaths(variant<int, double, string>start, variant<int, double, string> end, variant<int, double, string> startCol, variant<int, double, string> endCol){
 		Tree* treeStart = coulmnTrees[start];
 		Tree* treeEnd = coulmnTrees[end];

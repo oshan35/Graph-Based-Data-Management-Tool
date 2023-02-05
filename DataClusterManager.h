@@ -3,6 +3,7 @@
 #include<vector>
 #include<variant>
 #include"DataCluster.h"
+#include "TextTable.h"
 using namespace std;
 
 class DataClusterManager{
@@ -77,5 +78,78 @@ public:
 
         return convertedData;
 
+    }
+
+    vector<variant<int, double,string>> split(const std::string &str, char delimiter) {
+        std::vector<variant<int, double,string>> tokens;
+        std::stringstream ss(str);
+        std::string token;
+        while (std::getline(ss, token, delimiter)) {
+            variant<int,double,string> convetred =convertRawData(token);
+            tokens.push_back(convetred);
+        }
+        return tokens;
+    }
+
+    std::string variantToString(const std:: variant<int, double,string> &v) {
+        switch (v.index()) {
+            case 0:
+                return std::to_string(std::get<int>(v));
+            case 1:
+                return std::to_string(std::get<double>(v));
+            case 2:
+                return std::get<std::string>(v);
+        }
+        return "";
+    }
+
+    void getAllConnections(string clusterName,string returnCols, variant<int, double,string> colName, variant<int,double,string> dataPoint){
+       
+    
+    
+        vector<variant<int, double,string>> returnColList;
+        DataCluster* targetCluster = dataClusters[clusterName];
+
+        //auto item = std::find(returnColList.begin(),returnColList.end(),"*");
+        vector<vector<variant<int, double, string>>> connectionList;
+
+        if(returnCols == "*"){
+            returnColList = targetCluster->getColumnList();
+            connectionList = targetCluster->getConnections(colName,returnColList,dataPoint);
+        }else{
+    
+            returnColList = split(returnCols, ',');
+            connectionList = targetCluster->getConnections(colName,returnColList ,dataPoint);
+        }
+
+
+        TextTable t( '-', '|', '+' );
+
+        for (int i = 0; i < returnColList.size(); i++)
+        {
+            string data = variantToString(returnColList[i]);
+            t.add(data);
+        }
+        t.endOfRow();
+        
+
+        for (int row = 0; row < connectionList.size(); row++)
+        {
+            
+           for (int col = 0; col < connectionList[0].size(); col++)
+           {
+                string data = variantToString(connectionList[row][col]);
+                t.add(data);
+                
+           }
+           t.endOfRow();
+
+           
+        }
+
+
+        t.setAlignment( 2, TextTable::Alignment::RIGHT );
+        
+        std::cout << t;
     }
 };

@@ -71,7 +71,7 @@ int main() {
 			cin >> clusterName;
 			
 			std::cout << "Enter the file path: ";
-			string path = "./TestingData/TestData.csv";
+			string path = "./TestingData/TestData2.csv";
 			//cin >> path;
 
 			
@@ -127,6 +127,32 @@ int main() {
 					cout << " ------------------------------------------------------------- ";
 				}
 				case(2): {
+					cout<<"Enter Cluster Name: ";
+					string clustername;
+					cin>>clustername;
+					cout<<endl;
+
+					cout<<"Enter columns need to be returned: ";
+					string returnCols;
+					cin>>returnCols;
+					cout<<endl;
+
+					cout<<"Enter target column: ";
+					string targetCol;
+					cin>>targetCol;
+					variant<int, double, string>  convertTargetCol=dataclusterManager->convertRawData(targetCol);
+	
+					
+					cout<<endl;
+
+					cout<<"Enter target dataPoint: ";
+					string tagrteData;
+					cin>>tagrteData;
+					variant<int, double, string>  convertTargetData=dataclusterManager->convertRawData(tagrteData);
+					cout<<endl;
+
+					dataclusterManager->getAllConnections(clustername,returnCols,targetCol,tagrteData);
+
 					
 				}
 				case(3): {
