@@ -17,12 +17,15 @@ class DataCluster
 {
 public:
 	map<variant<int, double, string>,Tree*> coulmnTrees;
+	vector<variant<int,double,string>> columnList;
 	Graph* graph;
 
 	vector < vector<Node*>> createNodes(vector < vector<variant<int, double, string>>> rows) {
 		vector<vector<Node*> > arr(rows.size()-1, vector<Node*>(rows[0].size()));
 		for (int i = 0; i < rows[0].size(); i++) {
 			map<variant<int, double, string>, vector<pair<int, int>>> nodeMap;
+			coulmnTrees[rows[0][i]] = nullptr;
+			columnList.push_back(rows[0][i]);
 
 			for (int j = 1; j < rows.size(); j++) {
 
@@ -34,7 +37,8 @@ public:
 			}
 
 			for (const auto& [k, v] : nodeMap) {
-				coulmnTrees[rows[0][i]] = nullptr;
+
+
 				Node* newNode = new Node(k, rows[0][i]);
 				for (int index = 0; index < v.size(); index++) {
 
@@ -176,20 +180,15 @@ public:
 	DataCluster(vector < vector<variant<int, double, string>>> stringNodesVector){
 
 		vector<vector<Node*>> createdNodeVector = createNodes(stringNodesVector);
-
-		graph = createGraph(createdNodeVector);
 		createTrees(createdNodeVector);
+		graph = createGraph(createdNodeVector);
+
 	}
 
 
 	vector<variant<int, double, string>> getColumnList(){
-		vector<variant<int, double, string>> keyList;
 
-		for(const auto &item : coulmnTrees){
-			keyList.push_back(item.first);
-		}
-
-		return keyList;
+		return columnList;
 
 	}
 

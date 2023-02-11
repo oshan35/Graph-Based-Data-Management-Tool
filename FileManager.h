@@ -27,6 +27,13 @@ vector<vector<string>> readCSVFile(string path){
     fstream file (path, ios::in);
     if(file.is_open())
     {
+        char bom[3];
+        file.read(bom, 3);
+        if (bom[0] != '\xEF' || bom[1] != '\xBB' || bom[2] != '\xBF') {
+            // BOM not present, move the file pointer back to the beginning
+            file.seekg(0, std::ios::beg);
+        }
+
         while(getline(file, line))
         {
             row.clear();
@@ -51,6 +58,7 @@ vector<vector<string>> readCSVFile(string path){
         }
     }
 
+    
     return content;
 
 }

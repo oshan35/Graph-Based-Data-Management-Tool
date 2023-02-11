@@ -132,6 +132,7 @@ public:
 				
 				currentNode = currentNode->getOutRelation(index);
 			}
+			
 
 			searchResults.push_back(resultRow);
 			

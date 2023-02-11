@@ -121,6 +121,7 @@ public:
             returnColList = split(returnCols, ',');
             connectionList = targetCluster->getConnections(colName,returnColList ,dataPoint);
         }
+        cout<<"Test: "<<connectionList[0].size()<<endl;
 
 
         TextTable t( '-', '|', '+' );
@@ -128,6 +129,7 @@ public:
         for (int i = 0; i < returnColList.size(); i++)
         {
             string data = variantToString(returnColList[i]);
+            // cout<<data<< " ";
             t.add(data);
         }
         t.endOfRow();
