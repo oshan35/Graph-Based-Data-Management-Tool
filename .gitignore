@@ -3,4 +3,6 @@ GraphDB/GraphDB/x64/
 .vscode/settings.json
 GraphDB/GraphDB/Debug/
 GraphDB/Debug/
-GraphDB/GraphDB/*.exe
+*.exe
+TestData/Test*
+.vscode/
