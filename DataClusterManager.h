@@ -19,7 +19,7 @@ public:
             vector<variant<int, double, string>> dataRow;
             for (int col=0;col<rawData[0].size();col++)
             {
-                variant<int, double, string> convertedData = convertRawData(rawData[row][col]);
+                variant<int, double, string> convertedData = stringToVariant(rawData[row][col]);
                 dataRow.push_back(convertedData);
             }
             convertedRawData.push_back(dataRow);           
@@ -28,6 +28,19 @@ public:
         DataCluster* newDataCluster= new DataCluster(convertedRawData);
         dataClusters[clusterName]=(newDataCluster);
     }
+
+    std::variant<int, double, std::string> stringToVariant(const std::string& input) {
+        try {
+            return std::stoi(input);
+        } catch (const std::invalid_argument&) {
+            try {
+                return std::stod(input);
+            } catch (const std::invalid_argument&) {
+                return input;
+            }
+        }
+    }
+
     DataCluster* getDataClusters(string clustername) {
         return dataClusters[clustername];
     }
