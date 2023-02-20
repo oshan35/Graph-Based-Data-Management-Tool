@@ -5,7 +5,7 @@
 #include<vector>
 #include <sstream>
 #include <algorithm>
-#include "Query.h"
+// #include "Query.h"
 #include <array>
 #include <string>
 
@@ -42,7 +42,7 @@ namespace QueryService{
                 
             }
         }
-        return NULL;
+        return ' ';
 
     }
 

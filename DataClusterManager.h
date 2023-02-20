@@ -118,8 +118,6 @@ public:
 
     void getAllConnections(string clusterName,string returnCols, variant<int, double,string> colName, variant<int,double,string> dataPoint){
        
-    
-    
         vector<variant<int, double,string>> returnColList;
         DataCluster* targetCluster = dataClusters[clusterName];
 
@@ -166,5 +164,39 @@ public:
         t.setAlignment( 2, TextTable::Alignment::RIGHT );
         
         std::cout << t;
+    }
+
+
+    void getRelations(string clusterName, string col1, string data1, string col2, string data2){
+        DataCluster* targetCluster = dataClusters[clusterName];
+        variant<int,double,string> col1Converted = stringToVariant(col1);
+        variant<int,double,string> col2Converted = stringToVariant(col2);
+        variant<int,double,string> data1Converted = stringToVariant(data1);
+        variant<int,double,string> data2Converted = stringToVariant(data2);
+
+        vector<vector<int>> paths = targetCluster->getRelation(col1Converted,data1Converted,col2Converted,data2Converted);
+        TextTable t( '-', '|', '+' );
+        for (int i = 0; i < paths.size(); i++)
+        {
+            vector<vector<variant<int, double, string>>>  resultRows = targetCluster->graph->searchByIndexes(paths[i],targetCluster->getColumnList());
+            for (int row = 0; row < resultRows.size(); row++)
+            {
+                
+            for (int col = 0; col < resultRows[0].size(); col++)
+            {
+                    string data = variantToString(resultRows[row][col]);
+                    t.add(data);
+                    
+            }
+            t.endOfRow();
+
+            
+            }
+        }
+
+        t.setAlignment( 2, TextTable::Alignment::RIGHT );
+        
+        std::cout << t;
+        
     }
 };

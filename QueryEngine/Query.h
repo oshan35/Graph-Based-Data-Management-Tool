@@ -7,10 +7,15 @@
 using namespace std;
 
 class Query{
-    protected:
-    vector<string> select;
+    public:
+    string select;
     string from;
+    string queryId;
 
     public:
+    Query(string queryId){
+        this->queryId = queryId;
+    }
     virtual void queryDecoder(string queryString) = 0;
+    virtual void toString()=0;
 };

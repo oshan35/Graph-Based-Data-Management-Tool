@@ -78,5 +78,14 @@ public:
     	return data == other.data && label == other.label;
   	}
 
+	map<int,Node*> getNeighbors(){
+		map<int,Node*> neighors= inMap;
+
+		neighors.insert(outMap.begin(),outMap.end());
+
+		return neighors;
+
+	}
+
 };
 

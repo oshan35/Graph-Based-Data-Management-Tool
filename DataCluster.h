@@ -252,5 +252,19 @@ public:
 
 
 	}
+
+	vector<vector<int>> getRelation(variant<int,double,string> col1,variant<int,double,string> data1,variant<int,double,string> col2,variant<int,double,string> data2){
+		Node* col1Head =coulmnTrees[col1]->getRoot();
+		Node* startNode = findTreeNode(col1Head,data1);
+
+		Node* col2Head =coulmnTrees[col2]->getRoot();
+		Node* endNode = findTreeNode(col2Head,data1);
+
+		vector<vector<int>> paths=graph->bfs(startNode,endNode);
+		vector<vector<variant<int, double, string>>> connectionList;
+		
+		
+		return paths;
+	}
 };
 

@@ -71,7 +71,7 @@ int main() {
 			cin >> clusterName;
 			
 			std::cout << "Enter the file path: ";
-			string path = "./TestingData/TestData2.csv";
+			string path = "./TestingData/TestData.csv";
 			//cin >> path;
 
 			

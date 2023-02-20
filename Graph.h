@@ -123,7 +123,7 @@ public:
 
 			Node* currentNode = indexNode->getOutRelation(index);
 
-			while (!currentNode->getOutMap().empty())
+			while (currentNode!=nullptr)
 			{
 				if (std::find(columns.begin(), columns.end(), currentNode->getLabel()) != columns.end())
 				{
@@ -141,8 +141,55 @@ public:
 		return searchResults;
 
 	}
-	
 
+	vector<int> NodeToIndex(Node* node){
+		map<int,Node*> inRelations = node->getInMap();
+		vector<int> rowNumbers;
+		for(auto& connection:inRelations){
+			rowNumbers.push_back(connection.first);
+		}
+
+		return rowNumbers;
+
+	}
+
+
+	vector<vector<int>> bfs(Node* start, Node* target) {
+		queue<Node*> q;
+		unordered_set<Node*> visited;
+		unordered_map<Node*, Node*> parent;
+		vector<vector<int>> path;
+
+		q.push(start);
+		visited.insert(start);
+
+		while (!q.empty()) {
+			Node* current = q.front();
+			q.pop();
+
+			if (current == target) {
+				while (current != start) {
+					path.insert(path.begin(), NodeToIndex(current));
+					current = parent[current];
+				}
+				path.insert(path.begin(), NodeToIndex(start));
+				return path;
+			}
+
+			for (auto& neighbor : current->getNeighbors()) {
+				if (visited.find(neighbor.second) == visited.end()) {
+					q.push(neighbor.second);
+					visited.insert(neighbor.second);
+					parent[neighbor.second] = current;
+				}
+			}
+		}
+
+		return path;
+	}
+
+
+	
 
 };
 
