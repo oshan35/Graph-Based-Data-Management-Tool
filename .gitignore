@@ -6,3 +6,4 @@ GraphDB/Debug/
 *.exe
 TestData/Test*
 .vscode/
+TestData/
