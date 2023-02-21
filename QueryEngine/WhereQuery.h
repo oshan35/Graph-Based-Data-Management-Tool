@@ -52,26 +52,17 @@ class WhereQuery:public Query{
                 char _delimiter = QueryService::findCondtion(queryWordList[i+1]);
                 
                 vector<string> paraList = QueryService::split(queryWordList[i+1],_delimiter);
+                QueryService::replaceUnderscoresWithSpaces(paraList[0]);
+                QueryService::replaceUnderscoresWithSpaces(paraList[1]);
+
                 colName = paraList[0];
                 data = paraList[1];
                 i = i +2;
 
-                    
            }
-           
-           
-           
+              
         }
         
-
-
-
     }
-
-
-
-
-
-
 
 };

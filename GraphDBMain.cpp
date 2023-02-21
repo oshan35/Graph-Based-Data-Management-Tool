@@ -13,7 +13,7 @@
 #include "stdexcept"
 #include <variant>
 //#include "QueryEngine/Query.h"
-#include "QueryEngine/RelationQuery.h"
+//#include "QueryEngine/RelationQuery.h"
 
 
 
@@ -38,6 +38,12 @@ std::vector<std::string> split(const std::string& s, char delimiter)
 int main(){
     DataClusterManager* dataclusterManager = new DataClusterManager();
     string input;
+
+    vector<vector<string>> rawData = readCSVFile("./TestingData/TestData.csv");
+    dataclusterManager->createDataCluster("student-cluster",rawData);
+
+    vector<vector<string>> rawData2 = readCSVFile("./TestingData/Dummy-data.csv");
+    dataclusterManager->createDataCluster("crime-Data-cluster",rawData2);
 
     cout<<"runcommand> ";
 
@@ -81,6 +87,8 @@ int main(){
                 }
                 cout<<">";
             }
+            //for testing
+            query = "select * from student-cluster relate Name=oshan Name=ashen";
 
             Query *queryObj = decoder.createQuery(query);
              
@@ -94,13 +102,16 @@ int main(){
               
                 dataclusterManager->getAllConnections(queryObj->from,queryObj->select,convertTargetCol,convertTargetData);
             }else if(queryObj->queryId == "013") {
-
+        
                 RelationQuery* rQueryObj = static_cast<RelationQuery*>(queryObj);
                 
                 rQueryObj->toString();
                 dataclusterManager->getRelations(queryObj->from,rQueryObj->col1,rQueryObj->data1,rQueryObj->col2,rQueryObj->data2);
             }       
             
+        }else if (input == "list-clusters")
+        {
+            dataclusterManager->listCluster();
         }else if(input == "exit"){
             break;
         }
@@ -108,7 +119,5 @@ int main(){
         cout<<"runcommand> ";
         
     }
-    
-
 
 }

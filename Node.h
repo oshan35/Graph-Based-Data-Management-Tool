@@ -3,6 +3,7 @@
 #include<map>
 #include<variant>
 #include <any>
+#include <vector>
 
 using namespace std;
 
@@ -78,14 +79,18 @@ public:
     	return data == other.data && label == other.label;
   	}
 
-	map<int,Node*> getNeighbors(){
-		map<int,Node*> neighors= inMap;
+	vector<Node*> getNeighbors(){
+		vector<Node*> neighors;
+			
+		for (auto const& pair : inMap) {
+			neighors.push_back(pair.second);
+		}
 
-		neighors.insert(outMap.begin(),outMap.end());
-
+		for (auto const& pair : outMap) {
+			neighors.push_back(pair.second);
+		}
 		return neighors;
-
 	}
-
+	
 };
 

@@ -258,11 +258,11 @@ public:
 		Node* startNode = findTreeNode(col1Head,data1);
 
 		Node* col2Head =coulmnTrees[col2]->getRoot();
-		Node* endNode = findTreeNode(col2Head,data1);
+		Node* endNode = findTreeNode(col2Head,data2);
 
 		vector<vector<int>> paths=graph->bfs(startNode,endNode);
 		vector<vector<variant<int, double, string>>> connectionList;
-		
+
 		
 		return paths;
 	}

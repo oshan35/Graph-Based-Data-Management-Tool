@@ -4,6 +4,7 @@
 #include <algorithm>
 #include "Query.h"
 #include "WhereQuery.h"
+#include "RelationQuery.h"
 #include "QueryService.h"
 
 using namespace std;
@@ -53,10 +54,10 @@ class QueryDecoder{
         Query* queryObj;
         if (queryCode == "012")
         {
-                queryObj = new WhereQuery(queryCode,query);
-                queryObj->toString();   
+            queryObj = new WhereQuery(queryCode,query);
+            queryObj->toString();   
         }else if(queryCode == "013"){
-            queryObj;
+            queryObj = new RelationQuery(queryCode,query);
         }
 
         return queryObj;
@@ -64,6 +65,7 @@ class QueryDecoder{
 
     Query* createQuery(string query){
         string queryType = QueryDecoder::queryType(query);
+        
 
         Query* result= QueryDecoder::queryResult(queryType,query);
         return result;

@@ -64,6 +64,22 @@ namespace QueryService{
         
     }
 
+    void replaceUnderscoresWithSpaces(std::string& str) {
+        for (std::size_t i = 0; i < str.size(); ++i) {
+            if (str[i] == '_') {
+                str[i] = ' ';
+            }
+        }
+    }
+
+    void printVector(const std::vector<std::string>& vec) {
+        cout<<"vector: ";
+        for (const auto& item : vec) {
+            std::cout << item << std::endl;
+        }
+    
+    }
+
 
 }
 

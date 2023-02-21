@@ -166,8 +166,12 @@ public:
 		while (!q.empty()) {
 			Node* current = q.front();
 			q.pop();
+			//std::visit([](const auto& value) { std::cout <<"curr Node data "<< value; }, current->getData());
 
 			if (current == target) {
+			    //std::visit([](const auto& value) { std::cout <<"curr Node data"<< value; }, current->getData());
+				//std::visit([](const auto& value) { std::cout <<"target Node data"<< value; }, target->getData());
+				
 				while (current != start) {
 					path.insert(path.begin(), NodeToIndex(current));
 					current = parent[current];
@@ -176,11 +180,13 @@ public:
 				return path;
 			}
 
-			for (auto& neighbor : current->getNeighbors()) {
-				if (visited.find(neighbor.second) == visited.end()) {
-					q.push(neighbor.second);
-					visited.insert(neighbor.second);
-					parent[neighbor.second] = current;
+			for (Node* neighbor : current->getNeighbors()) {
+				//std::visit([](const auto& value) { std::cout <<"Node data "<< value<<endl; }, neighbor->getData());
+				if (visited.find(neighbor) == visited.end()) {
+					
+					q.push(neighbor);
+					visited.insert(neighbor);
+					parent[neighbor] = current;
 				}
 			}
 		}

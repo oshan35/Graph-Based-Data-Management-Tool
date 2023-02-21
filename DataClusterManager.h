@@ -175,23 +175,43 @@ public:
         variant<int,double,string> data2Converted = stringToVariant(data2);
 
         vector<vector<int>> paths = targetCluster->getRelation(col1Converted,data1Converted,col2Converted,data2Converted);
+        
         TextTable t( '-', '|', '+' );
+
+        
         for (int i = 0; i < paths.size(); i++)
         {
             vector<vector<variant<int, double, string>>>  resultRows = targetCluster->graph->searchByIndexes(paths[i],targetCluster->getColumnList());
             for (int row = 0; row < resultRows.size(); row++)
             {
                 
-            for (int col = 0; col < resultRows[0].size(); col++)
-            {
-                    string data = variantToString(resultRows[row][col]);
-                    t.add(data);
-                    
-            }
-            t.endOfRow();
+                for (int col = 0; col < resultRows[0].size(); col++)
+                {
+                        string data = variantToString(resultRows[row][col]);
+                        t.add(data);
+                        
+                }
+                t.endOfRow();
 
             
             }
+        }
+
+        t.setAlignment( 2, TextTable::Alignment::RIGHT );
+        
+        std::cout << t;
+        
+    }
+
+    void listCluster(){
+        TextTable t( '-', '|', '+' );
+        t.add("Cluster Name");
+        t.endOfRow();
+
+        for (const auto& [key,value] : dataClusters)
+        {
+            t.add(key);
+            t.endOfRow();
         }
 
         t.setAlignment( 2, TextTable::Alignment::RIGHT );

@@ -2,7 +2,7 @@
 #include<vector>
 #include<map>
 #include <sstream>
-#include "Query.h"
+//#include "Query.h"
 #include "QueryService.h"
 
 using namespace std;
@@ -23,7 +23,7 @@ class RelationQuery:public Query{
     }
 
     void toString() override{
-        cout<<"select "<<select[0]<<" from "<<from<<" relate "<<col1<<"="<<data1<<" "<<col1<<"="<<data1<<endl;
+        cout<<"select "<<select[0]<<" from "<<from<<" relate "<<col1<<"="<<data1<<" "<<col2<<"="<<data2<<endl;
     }
 
 
@@ -31,6 +31,7 @@ class RelationQuery:public Query{
     void queryDecoder(string queryString){
         
         vector<string> queryWordList = QueryService::split(queryString,' ');
+        //QueryService::printVector(queryWordList);
         bool _para_mode = false;
         string current_para;
         int i = 0; 
@@ -40,31 +41,39 @@ class RelationQuery:public Query{
            {
                 //vector<string> selectedCols  = QueryService::split(queryWordList[i+1],',');
                 select = queryWordList[i+1];
-                i = i+2;
+               
                 
            }else if (queryWordList[i]=="from")
            {
                 from = queryWordList[i+1];
-                i = i +2;
+   
 
            }else if(queryWordList[i]=="relate")
            {
 
-                char _delimiter = QueryService::findCondtion(queryWordList[i+1]);
+                char _delimiter = '=';
                 
                 vector<string> paraList = QueryService::split(queryWordList[i+1],_delimiter);
+                QueryService::replaceUnderscoresWithSpaces(paraList[0]);
+                QueryService::replaceUnderscoresWithSpaces(paraList[1]);
                 col1 = paraList[0];
                 data1 = paraList[1];
-               
 
-                char _delimiter2 = QueryService::findCondtion(queryWordList[i +2]);
+              
+               
                 
                 vector<string> paraList2 = QueryService::split(queryWordList[i +2],_delimiter);
+                QueryService::replaceUnderscoresWithSpaces(paraList2[0]);
+                QueryService::replaceUnderscoresWithSpaces(paraList2[1]);
                 col2 = paraList2[0];
                 data2 = paraList2[1];
 
+                
+          
+
                     
            }
+            i = i+2;
            
            
            
