@@ -1,0 +1,5 @@
+select * from student-cluster where Faculty=ENG;
+select Name,district from student-cluster where district=Gampaha;
+select Area_unit_2013_label,Urban_area_2013_label from crime-Data-cluster where Territorial=Auckland;
+select * from social-network-cluster relate Name=Oshan Friend=Ananda;
+select * from social-network-cluster relate Name=Oshan Name=Nehara;
