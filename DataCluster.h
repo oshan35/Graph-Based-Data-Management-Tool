@@ -106,75 +106,8 @@ public:
 
 		return newGraph;
 	}
-	std::vector<std::string> split(const std::string& str) {
-		std::stringstream ss(str);
-		std::string word;
-		std::vector<std::string> words;
-		while (ss >> word) {
-			words.push_back(word);
-		}
-		return words;
-	}
-	variant<int, double, string>  convertRawData(string rawData) {
-		double doubleValue;
-		int intValue;
-		string stringValue;
+	
 
-		variant<int, double, string> convertedData;
-
-		bool isInt = true;
-		bool isDouble = false;
-
-		for (int index = 0; index < rawData.length(); index++)
-		{
-			if (rawData[index] == '.' && !isDouble && isInt)
-			{
-				isDouble = true;
-			}
-			else if (!isdigit(rawData[index]))
-			{
-				isInt = false;
-			}
-
-
-		}
-
-		if (isDouble && isInt) {
-			doubleValue = stod(rawData);
-			convertedData = doubleValue;
-		}
-		else if (isInt) {
-			intValue = stoi(rawData);
-			convertedData = intValue;
-		}
-		else {
-			stringValue = rawData;
-			convertedData = stringValue;
-		}
-
-		return convertedData;
-
-	}
-
-	Node* findTreeNode(Node* node, variant<int, double, string> data){
-		if(node == NULL){
-			return NULL;
-		}else if(node->getData() == data){
-			return node;
-		}
-
-		Node* left= findTreeNode(node->getLeft(),data);
-		Node* right=findTreeNode(node->getright(),data);
-
-		if (left == NULL)
-		{
-			return right;
-		}else{
-			return left;
-		}
-		
-		
-	}
 
 	public:
 	DataCluster(vector < vector<variant<int, double, string>>> stringNodesVector){
@@ -191,78 +124,34 @@ public:
 		return columnList;
 
 	}
-
-
-	vector < vector<Node*>> FindPaths(variant<int, double, string>start, variant<int, double, string> end, variant<int, double, string> startCol, variant<int, double, string> endCol){
-		Tree* treeStart = coulmnTrees[start];
-		Tree* treeEnd = coulmnTrees[end];
-		// for (int tree = 0; tree < coulmnTrees.size(); tree++) {
-		// 	if (coulmnTrees[tree]->getRoot()->getLabel() == startCol)
-		// 		treeStart = coulmnTrees[tree];
-		// 	else if(coulmnTrees[tree]->getRoot()->getLabel() == endCol)
-		// 		treeEnd = coulmnTrees[tree];
-		// }
-		// treeStart->getRoot()->getData();
-		
-		Node* startNode = treeStart->searchTree(treeStart->getRoot(), start);
-		Node* endNode= treeEnd->searchTree(treeEnd->getRoot(), end);
-
-		vector<vector<Node*>>result = graph->findRelationship(startNode, endNode);
-		// vector < vector<variant<int, double, string>>> res2;
-		// for (int i = 0; i < result.size(); i++) {
-		// 	vector < variant<int, double, string>> res1;
-		// 	for (int j = 0; j < result[i].size(); j++) {
-		// 		res1.push_back(result[i][j]->getData());
-		// 	}
-		// 	res2.push_back(res1);
-		// }
-		return result;
-	}
-	
-	vector<variant<int, double, string>> searchIF(variant<int, double, string>column, variant<int, double, string> target,int condition) {
-		
-		Tree* treeSearch = coulmnTrees[column];
-		// for (int tree = 0; tree < coulmnTrees.size(); tree++) {
-		// 	if (coulmnTrees[tree]->getRoot()->getLabel() == column)
-		// 		treeSearch = coulmnTrees[tree];
-		// }
-		vector<variant<int, double, string>>res;
-			res = treeSearch->searchIfCondition(treeSearch->getRoot(),target, res,condition);
-		
-		return res;
-	}
-
 	
 	vector<vector<variant<int, double, string>>> getConnections(variant<int, double, string> colName, vector<variant<int, double, string>> columns ,variant<int, double, string> data){
 		Node* treeHead = coulmnTrees[colName]->getRoot();
 
-		Node* tragetNode = findTreeNode(treeHead, data);
-
+		Node* tragetNode = coulmnTrees[colName]->searchTree(treeHead, data);
 		vector<int> allIndexes;
 
 
 		for (const auto &item : tragetNode->getInMap()) {
         	allIndexes.push_back(item.first);
     	}
-
+	
 		vector<vector<variant<int, double, string>>> searchResult = graph->searchByIndexes(allIndexes,columns);
 
 		return searchResult;
 
-
-
 	}
 
-	vector<vector<int>> getRelation(variant<int,double,string> col1,variant<int,double,string> data1,variant<int,double,string> col2,variant<int,double,string> data2){
+
+
+	vector<int> getRelation(variant<int,double,string> col1,variant<int,double,string> data1,variant<int,double,string> col2,variant<int,double,string> data2){
 		Node* col1Head =coulmnTrees[col1]->getRoot();
-		Node* startNode = findTreeNode(col1Head,data1);
+		Node* startNode = coulmnTrees[col1]->searchTree(col1Head,data1);
 
 		Node* col2Head =coulmnTrees[col2]->getRoot();
-		Node* endNode = findTreeNode(col2Head,data2);
+		Node* endNode = coulmnTrees[col1]->searchTree(col2Head,data2);
 
-		vector<vector<int>> paths=graph->bfs(startNode,endNode);
-		vector<vector<variant<int, double, string>>> connectionList;
-
+		vector<int> paths=graph->bfs(startNode,endNode);
 		
 		return paths;
 	}

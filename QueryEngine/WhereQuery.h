@@ -31,13 +31,14 @@ class WhereQuery:public Query{
         
         vector<string> queryWordList = QueryService::split(queryString,' ');
         bool _para_mode = false;
+
+        QueryService::printVector(queryWordList);
         string current_para;
         int i = 0; 
         while (i < queryWordList.size())
         {
            if (queryWordList[i]=="select")
            {
-                //vector<string> selectedCols  = QueryService::split(queryWordList[i+1],',');
                 select = queryWordList[i+1];
                 i = i+2;
                 
@@ -52,7 +53,9 @@ class WhereQuery:public Query{
                 char _delimiter = QueryService::findCondtion(queryWordList[i+1]);
                 
                 vector<string> paraList = QueryService::split(queryWordList[i+1],_delimiter);
-                QueryService::replaceUnderscoresWithSpaces(paraList[0]);
+
+               
+                
                 QueryService::replaceUnderscoresWithSpaces(paraList[1]);
 
                 colName = paraList[0];

@@ -1,4 +1,4 @@
-//code References https://github.com/haarcuba/cpp-text-table
+//code References: https://github.com/haarcuba/cpp-text-table
 
 #pragma once
 

@@ -37,25 +37,12 @@ class QueryDecoder{
         
     }
 
-    // void queryDecoder(string queryCode, string query){
-    //     Query* queryObj;
-    //    if (queryCode == "012")
-    //    {
-    //         queryObj = new WhereQuery(query);
-    //         queryObj->toString();
-        
-            
-    //    }
-    //    //return queryObj;
-    
-    // }
 
     Query* queryResult(string queryCode, string query){
         Query* queryObj;
         if (queryCode == "012")
         {
             queryObj = new WhereQuery(queryCode,query);
-            queryObj->toString();   
         }else if(queryCode == "013"){
             queryObj = new RelationQuery(queryCode,query);
         }

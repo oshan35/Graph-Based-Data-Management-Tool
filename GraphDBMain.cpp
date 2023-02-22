@@ -9,13 +9,10 @@
 #include "FileManager.h"
 #include "DataClusterManager.h"
 #include "QueryEngine/QueryDecoder.h"
-#include "Service.h"
 #include "stdexcept"
 #include <variant>
-//#include "QueryEngine/Query.h"
-//#include "QueryEngine/RelationQuery.h"
-
-
+#include <fstream>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -45,6 +42,15 @@ int main(){
     vector<vector<string>> rawData2 = readCSVFile("./TestingData/Dummy-data.csv");
     dataclusterManager->createDataCluster("crime-Data-cluster",rawData2);
 
+    vector<vector<string>> rawData3 = readCSVFile("./TestingData/TestData3.csv");
+    dataclusterManager->createDataCluster("social-network-cluster",rawData3);
+    cout<<"Welcome to Cluster-Math. This a console base application where you can manage \nyour unstructured tabula form data."<<endl;
+    time_t now = time(0);
+    char* dt = ctime(&now);
+    std::cout<<"@" <<dt << std::endl;
+
+    cout<<"Run help for more instructions."<<endl;
+    cout<<" "<<endl;
     cout<<"runcommand> ";
 
     while (getline(std::cin, input))
@@ -88,32 +94,79 @@ int main(){
                 cout<<">";
             }
             //for testing
-            query = "select * from student-cluster relate Name=oshan Name=ashen";
+            //query = "select Rate_ratio_NZ_average_rate from crime-Data-cluster where Territorial=Auckland";
+            Query *queryObj;
+            try
+            {
+                queryObj = decoder.createQuery(query);
+            }
+            catch(const std::exception& e)
+            {
+                std::cerr << e.what() << '\n';
+                cout<<"Invalid Query!"<<endl;
+                continue;
+            }
+            
 
-            Query *queryObj = decoder.createQuery(query);
+            //Query *queryObj = decoder.createQuery(query);
              
-          
-            cout<<queryObj->select<<endl;
             if(queryObj->queryId == "012") {
                 WhereQuery* wQueryObj = static_cast<WhereQuery*>(queryObj);
 
+                //wQueryObj->toString();
+
                 variant<int, double, string>  convertTargetCol=dataclusterManager->convertRawData(wQueryObj->colName);
                 variant<int, double, string>  convertTargetData=dataclusterManager->convertRawData(wQueryObj->data);
+
+                try
+                {
+                    dataclusterManager->getAllConnections(queryObj->from,queryObj->select,convertTargetCol,convertTargetData);
+                }
+                catch(const std::exception& e)
+                {
+                    std::cerr << e.what() << '\n';
+                }
+                
               
-                dataclusterManager->getAllConnections(queryObj->from,queryObj->select,convertTargetCol,convertTargetData);
+                
             }else if(queryObj->queryId == "013") {
         
                 RelationQuery* rQueryObj = static_cast<RelationQuery*>(queryObj);
+
+                try
+                {
+                    dataclusterManager->getRelations(queryObj->from,rQueryObj->col1,rQueryObj->data1,rQueryObj->col2,rQueryObj->data2);
+                }
+                catch(const std::exception& e)
+                {
+                    std::cerr << e.what() << '\n';
+                }
                 
-                rQueryObj->toString();
-                dataclusterManager->getRelations(queryObj->from,rQueryObj->col1,rQueryObj->data1,rQueryObj->col2,rQueryObj->data2);
+
             }       
             
         }else if (input == "list-clusters")
         {
             dataclusterManager->listCluster();
+        }else if(input == "help"){
+
+            std::ifstream file("help.txt");
+            if (file) {
+                std::string line;
+                while (std::getline(file, line)) {
+                    std::cout << line << std::endl;
+                }
+            } else {
+                std::cerr << "Error opening file " << "help" << std::endl;
+            }
+
         }else if(input == "exit"){
             break;
+        }else if(input == "clear"){
+            system("cls");
+
+        }else{
+            cout<<"Invalid command run --help too read the instructions!"<<endl;
         }
 
         cout<<"runcommand> ";

@@ -1,0 +1,40 @@
+Welcome to the Cluster Math Application
+
+create-cluster : this command is used to create a data cluster using csv file. it takes 03 parameters.
+		 parameter 01 : user should enter a name for the data cluster.
+		 parameter 02 : user should enter the file path for the csv file.
+		 example
+		 runcommand> create-cluster <parameter01> <parameter02>
+		 runcommand> create-cluster test-cluster ./Testingdata/TestData.csv
+
+list-clusters  : this command is used to list the exisiting cluster namess in the program.
+		 example
+		 runcommand> list-cluster
+
+run-query      : this command is used to switch the program to query mode. it will show a > where we
+		 can type the standard query types in the console.
+
+clear		   : clear the console
+
+Standard Query
+
+where closes : this query type can be used to find a certain type of data rows and list them as user want.
+		example:
+		>select <column names>
+		>from <cluster name>
+		>where <condition>;
+		
+		>select Name,Age
+		>from student-cluster
+		>where Faculty=ENG;
+
+relate query : this query type can be used to find indirect connections or relations between two data points.
+	       It will return data rows which relate bwteen two data points.
+		example:
+		>select <column names>
+		>from <cluster name>
+		>relate <col1=data1> <col2=data2>;
+		
+		>select *
+		>from student-cluster
+		>relate Name=Oshan Name=Nehara;

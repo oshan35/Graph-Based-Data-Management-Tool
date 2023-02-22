@@ -26,8 +26,6 @@ class RelationQuery:public Query{
         cout<<"select "<<select[0]<<" from "<<from<<" relate "<<col1<<"="<<data1<<" "<<col2<<"="<<data2<<endl;
     }
 
-
-
     void queryDecoder(string queryString){
         
         vector<string> queryWordList = QueryService::split(queryString,' ');
@@ -54,7 +52,7 @@ class RelationQuery:public Query{
                 char _delimiter = '=';
                 
                 vector<string> paraList = QueryService::split(queryWordList[i+1],_delimiter);
-                QueryService::replaceUnderscoresWithSpaces(paraList[0]);
+
                 QueryService::replaceUnderscoresWithSpaces(paraList[1]);
                 col1 = paraList[0];
                 data1 = paraList[1];
@@ -63,31 +61,17 @@ class RelationQuery:public Query{
                
                 
                 vector<string> paraList2 = QueryService::split(queryWordList[i +2],_delimiter);
-                QueryService::replaceUnderscoresWithSpaces(paraList2[0]);
+
                 QueryService::replaceUnderscoresWithSpaces(paraList2[1]);
                 col2 = paraList2[0];
                 data2 = paraList2[1];
 
-                
-          
-
-                    
+   
            }
             i = i+2;
-           
-           
-           
-        }
         
-
-
+        }
 
     }
-
-
-
-
-
-
 
 };

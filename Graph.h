@@ -8,75 +8,6 @@ using namespace std;
 class Graph
 {
 	int numOfNodes;
-	vector<vector<Node*>> findInPath(Node* start, Node* end, vector<vector<Node*>>Paths, vector<Node*>newPath, int level) {
-		level++;
-		if (start == end) {
-			Paths.push_back(newPath);
-			return Paths;
-		}
-		if (start == NULL)
-			return { {} };
-
-		std::vector<Node*> values;
-		for (auto& elem : start->getInMap()) {
-			values.push_back(elem.second);
-		}
-		auto last = std::unique(values.begin(), values.end());
-		values.erase(last, values.end());
-
-		for (const auto value : values) {
-			if (level == 1)
-				newPath = { start,value };
-			else {
-				for (int i = 0; i < newPath.size(); i++) {
-					if (newPath[i]->getLabel() == value->getLabel())
-						newPath.erase(newPath.begin() + i);
-				}
-
-				newPath.push_back(value);
-			}
-
-
-			Paths = findInPath(value, end, Paths, newPath, level);
-		}
-		return Paths;
-
-	}
-vector<vector<Node*>> findOutPath(Node* start, Node* end, vector<vector<Node*>>Paths, vector<Node*>newPath, int level) {
-		level++;
-		if (start == end) {
-			Paths.push_back(newPath);
-			return Paths;
-		}
-		if (start == NULL)
-			return { {} };
-		std::vector<Node*> values;
-		for (auto& elem : start->getOutMap()) {
-			values.push_back(elem.second);
-		}
-		auto last = std::unique(values.begin(), values.end());
-		values.erase(last, values.end());
-
-		for (const auto value: values) {
-			if (level == 1)
-				newPath = { start,value };
-			else {
-				for (int i = 0; i < newPath.size(); i++) {
-					if (newPath[i]->getLabel() == value->getLabel())
-						newPath.erase(newPath.begin() + i);
-				}
-
-				newPath.push_back(value);
-			}
-
-
-			Paths = findOutPath(value, end, Paths, newPath, level);
-		}
-		return Paths;
-
-	}
-
-
 
 public:
 	Node* indexNode;
@@ -99,20 +30,16 @@ public:
 		numOfNodes++;
 	}
 
-	
-	vector<vector<Node*>> findRelationship(Node* start,Node* end){
-		
-		
-		vector<vector<Node*>> res;
-		vector<Node*>input;
-		vector<vector<Node*>> res_got = findInPath(start, end, res, input, 0);
-		if (res_got.empty()) {
-			res_got= findOutPath(start, end, res, input, 0);
+
+
+	void remove_spaces(std::variant<int, double, std::string>& data) {
+		if (std::holds_alternative<std::string>(data)) {
+			std::string str_data = std::get<std::string>(data);
+			str_data.erase(0, str_data.find_first_not_of(" "));
+			str_data.erase(str_data.find_last_not_of(" ") + 1);
+			data = std::move(str_data);
 		}
-		return res_got;
 	}
-
-
 	
 	vector<vector<variant<int, double, string>>> searchByIndexes(vector<int> indexVector,vector<variant<int, double, string>> columns ){
 		vector<vector<variant<int, double, string>>> searchResults;
@@ -125,7 +52,11 @@ public:
 
 			while (currentNode!=nullptr)
 			{
-				if (std::find(columns.begin(), columns.end(), currentNode->getLabel()) != columns.end())
+				variant<int,double,string> clusterCol =currentNode->getLabel();
+				remove_spaces(clusterCol);
+				//std::visit([](const auto& value) { std::cout <<"Test1: "<< value<<" "; }, columns[0]);
+				//std::visit([](const auto& value) { std::cout <<"Test2: "<< value<<" "; }, currentNode->getLabel());
+				if (std::find(columns.begin(), columns.end(), clusterCol) != columns.end())
 				{
 					resultRow.push_back(currentNode->getData());
 				}
@@ -153,12 +84,24 @@ public:
 
 	}
 
+	void insertUnique(vector<int> &target, vector<int> &source){
+		for(int index:source){
+			if (!(find(target.begin(),target.end(),index) != target.end()))
+			{
+				target.insert(target.begin(),index);
+			}
+			
+		}
 
-	vector<vector<int>> bfs(Node* start, Node* target) {
+	}
+
+
+	vector<int> bfs(Node* start, Node* target) {
 		queue<Node*> q;
 		unordered_set<Node*> visited;
 		unordered_map<Node*, Node*> parent;
-		vector<vector<int>> path;
+		//vector<vector<int>> path;
+		vector<int> path;
 
 		q.push(start);
 		visited.insert(start);
@@ -173,10 +116,14 @@ public:
 				//std::visit([](const auto& value) { std::cout <<"target Node data"<< value; }, target->getData());
 				
 				while (current != start) {
-					path.insert(path.begin(), NodeToIndex(current));
+					vector<int> connections = NodeToIndex(current);
+					insertUnique(path,connections);
+					//path.insert(path.begin(), NodeToIndex(current));
 					current = parent[current];
 				}
-				path.insert(path.begin(), NodeToIndex(start));
+				vector<int> connections = NodeToIndex(current);
+				insertUnique(path,connections);
+				//path.insert(path.begin(), NodeToIndex(start));
 				return path;
 			}
 

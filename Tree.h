@@ -93,60 +93,26 @@ public:
 	void createTree(vector <Node*> Data) {
 		vector<Node*> sortedVector = mergeSort(Data, 0, Data.size() - 1);
 		root=vectorToBST(sortedVector, 0, Data.size() - 1);
-		
-		//returns the root of the created tree
 
 	}
 	
 	Node* searchTree(Node* root, variant<int, double, string> target) {
-		if (target > root->getData()) {
-			root = searchTree(root->getright(), target);
-			return root;
+			if (root == NULL)
+				return root;
+			if (target > root->getData()) {
+				root = searchTree(root->getright(),target);
 
-		}
-		else if (target < root->getData()) {
-			root = searchTree(root->getLeft(), target);
-			return root;
-		}
-		else
-			return root;
+			}
+			else if (target < root->getData()) {
+				root = searchTree(root->getLeft(), target);
+				
+			}
+			else{
+				return root;
+			}
+		return root;
 	}
-	
-	vector<variant<int, double, string>> searchIfCondition(Node* root, variant<int, double, string> target, vector<variant<int, double, string>> res,int condition) {
-		if (root == NULL)
-			return res;
-		switch (condition) {
-		case(1): {
-			if (root->getData() > target)
-				res.push_back(root->getData());
 
-		}
-		case(2): {
-			if (root->getData() < target)
-				res.push_back(root->getData());
-
-		}
-		
-		case(3): {
-			if (root->getData() >= target)
-				res.push_back(root->getData());
-
-		}
-	
-		case(4): {
-			if (root->getData() <= target)
-				res.push_back(root->getData());
-
-		}
-	}
-		
-		
-		return res;
-
-
-
-	}
-	
 
 };
 

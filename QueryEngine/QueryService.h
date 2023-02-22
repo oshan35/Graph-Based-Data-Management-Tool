@@ -79,8 +79,6 @@ namespace QueryService{
         }
     
     }
-
-
 }
 
 #endif 

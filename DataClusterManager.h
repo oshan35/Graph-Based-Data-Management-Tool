@@ -121,7 +121,6 @@ public:
         vector<variant<int, double,string>> returnColList;
         DataCluster* targetCluster = dataClusters[clusterName];
 
-        //auto item = std::find(returnColList.begin(),returnColList.end(),"*");
         vector<vector<variant<int, double, string>>> connectionList;
 
         if(returnCols == "*"){
@@ -132,7 +131,7 @@ public:
             returnColList = split(returnCols, ',');
             connectionList = targetCluster->getConnections(colName,returnColList ,dataPoint);
         }
-        cout<<"Test: "<<connectionList[0].size()<<endl;
+    
 
 
         TextTable t( '-', '|', '+' );
@@ -140,7 +139,7 @@ public:
         for (int i = 0; i < returnColList.size(); i++)
         {
             string data = variantToString(returnColList[i]);
-            // cout<<data<< " ";
+          
             t.add(data);
         }
         t.endOfRow();
@@ -148,10 +147,11 @@ public:
 
         for (int row = 0; row < connectionList.size(); row++)
         {
-            
-           for (int col = 0; col < connectionList[0].size(); col++)
+           for (int col = 0; col < connectionList[row].size(); col++)
            {
+            
                 string data = variantToString(connectionList[row][col]);
+                
                 t.add(data);
                 
            }
@@ -174,27 +174,20 @@ public:
         variant<int,double,string> data1Converted = stringToVariant(data1);
         variant<int,double,string> data2Converted = stringToVariant(data2);
 
-        vector<vector<int>> paths = targetCluster->getRelation(col1Converted,data1Converted,col2Converted,data2Converted);
+        vector<int> paths = targetCluster->getRelation(col1Converted,data1Converted,col2Converted,data2Converted);
         
         TextTable t( '-', '|', '+' );
 
-        
-        for (int i = 0; i < paths.size(); i++)
+        vector<vector<variant<int, double, string>>>  resultRows = targetCluster->graph->searchByIndexes(paths,targetCluster->getColumnList());
+        for (int row = 0; row < resultRows.size(); row++)
         {
-            vector<vector<variant<int, double, string>>>  resultRows = targetCluster->graph->searchByIndexes(paths[i],targetCluster->getColumnList());
-            for (int row = 0; row < resultRows.size(); row++)
+           
+            for (int col = 0; col < resultRows.size(); col++)
             {
-                
-                for (int col = 0; col < resultRows[0].size(); col++)
-                {
-                        string data = variantToString(resultRows[row][col]);
-                        t.add(data);
-                        
-                }
-                t.endOfRow();
-
-            
+                string data = variantToString(resultRows[row][col]);
+                t.add(data);
             }
+            t.endOfRow();
         }
 
         t.setAlignment( 2, TextTable::Alignment::RIGHT );
