@@ -1,5 +1,6 @@
 # Graph-Based-Data-Management-Tool
 Cluster Math is a data management tool such as SQL. Its strongly developed for tabula form data such as csv. You can use cluster math to query the tabula form data. Currently it supports two types of queries. Query language used in cluster math is similer to SQL. It will provide the ability to query and manipulate unstrctured data.
+One of the main advantage you can get from cluster math is, it will enable you to run quries and manipulate the unstructured data in console base environment in faster and easier way. Data strcture used in cluster math provides ability to find connections between data points faster other conventional methods.
 
 ## User Guid
 Cluster math works as a command line application. You can run basic commands and view the exisiting clusters and query them by switching to query mode.
